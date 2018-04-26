@@ -72,7 +72,7 @@ void loop() {
     {
       T=T1;
       Aref= analogRead(ThPin);
-      Tdelay = analogRead(DelayPin);
+      Tdelay = analogRead(DelayPin)*20;
       Twidth = analogRead(WidthPin);
       Both = digitalRead(BothPin);
       if(Both)          

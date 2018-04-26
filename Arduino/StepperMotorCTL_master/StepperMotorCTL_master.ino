@@ -42,7 +42,7 @@ void loop() {
         case 'B':
           digitalWrite(LEDPin,HIGH);
           delay(200);
-//          digitalWrite(LEDPin,LOW);
+          digitalWrite(LEDPin,LOW);
           break;
         case 'L':
           digitalWrite(MLeftPin,HIGH);
@@ -57,11 +57,11 @@ void loop() {
         case 'T':
           //switch to UP position
           digitalWrite(TrigUpPin,HIGH);
-          digitalWrite(TrigDownPin,LOW);
-          delay(2000);  //wait 0.1 sec
+          digitalWrite(TrigDownPin,HIGH);
+          delay(250);  //wait 0.1 sec
           //back to DOWN position
           digitalWrite(TrigUpPin,LOW);
-          digitalWrite(TrigDownPin,HIGH);
+          digitalWrite(TrigDownPin,LOW);
           break;
       }
         
