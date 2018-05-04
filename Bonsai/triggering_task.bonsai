@@ -45,7 +45,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q3:SerialStringWrite">
-          <q3:PortName>COM4</q3:PortName>
+          <q3:PortName>COM5</q3:PortName>
           <q3:NewLine>\r\n</q3:NewLine>
         </Combinator>
       </Expression>
@@ -138,7 +138,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q5:MatrixWriter">
-                      <q5:Path>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\adc_</q5:Path>
+                      <q5:Path>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\adc_</q5:Path>
                       <q5:Suffix>FileCount</q5:Suffix>
                       <q5:Overwrite>false</q5:Overwrite>
                       <q5:Layout>RowMajor</q5:Layout>
@@ -186,13 +186,13 @@ def process(value):
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="BooleanProperty">
-                            <Value>true</Value>
+                            <Value>false</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Value</MemberName>
                           <Name>Save</Name>
-                          <Value>true</Value>
+                          <Value>false</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -212,7 +212,7 @@ def process(value):
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>true</Value>
+                    <Value>false</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -508,7 +508,7 @@ def process(value):
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="q3:CsvWriter">
-                          <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\pulses_</q3:FileName>
+                          <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\pulses_</q3:FileName>
                           <q3:Append>true</q3:Append>
                           <q3:Overwrite>true</q3:Overwrite>
                           <q3:Suffix>FileCount</q3:Suffix>
@@ -518,7 +518,7 @@ def process(value):
                         <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
                           <MemberName>FileName</MemberName>
                           <Name>FileName</Name>
-                          <Value>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\pulses_</Value>
+                          <Value>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\pulses_</Value>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfArrayOfDoubleDetectSpikes">
                           <MemberName>Threshold</MemberName>
@@ -545,13 +545,13 @@ def process(value):
                               <Expression xsi:type="WorkflowOutput" />
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="BooleanProperty">
-                                  <Value>true</Value>
+                                  <Value>false</Value>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                                 <MemberName>Value</MemberName>
                                 <Name>Save</Name>
-                                <Value>true</Value>
+                                <Value>false</Value>
                               </Expression>
                             </Nodes>
                             <Edges>
@@ -571,7 +571,7 @@ def process(value):
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Save</MemberName>
                           <Name>Save</Name>
-                          <Value>true</Value>
+                          <Value>false</Value>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q5:SelectChannels">
@@ -860,7 +860,7 @@ def process(value):
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>true</Value>
+                    <Value>false</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -937,7 +937,7 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q3:TextWriter">
-                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\ephysTS_</q3:FileName>
+                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\ephysTS_</q3:FileName>
                       <q3:Suffix>FileCount</q3:Suffix>
                       <q3:Buffered>true</q3:Buffered>
                       <q3:Overwrite>false</q3:Overwrite>
@@ -976,13 +976,13 @@ def process(value):
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="BooleanProperty">
-                            <Value>true</Value>
+                            <Value>false</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Value</MemberName>
                           <Name>Save</Name>
-                          <Value>true</Value>
+                          <Value>false</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -1002,7 +1002,7 @@ def process(value):
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>true</Value>
+                    <Value>false</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1070,7 +1070,7 @@ def process(value):
             <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
               <MemberName>Save</MemberName>
               <Name>Save</Name>
-              <Value>true</Value>
+              <Value>false</Value>
             </Expression>
           </Nodes>
           <Edges>
@@ -1130,7 +1130,7 @@ def process(value):
           <Nodes>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q7:ImageWriter">
-                <q7:Path>\\.\pipe\video_all0</q7:Path>
+                <q7:Path>\\.\pipe\video_all4</q7:Path>
                 <q7:Suffix>None</q7:Suffix>
                 <q7:Overwrite>false</q7:Overwrite>
               </Combinator>
@@ -1144,7 +1144,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="q3:CsvWriter">
-                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\tracking_</q3:FileName>
+                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\tracking_</q3:FileName>
                     <q3:Append>false</q3:Append>
                     <q3:Overwrite>false</q3:Overwrite>
                     <q3:Suffix>FileCount</q3:Suffix>
@@ -1221,7 +1221,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="q3:CsvWriter">
-                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\videoTS_</q3:FileName>
+                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\videoTS_</q3:FileName>
                     <q3:Append>false</q3:Append>
                     <q3:Overwrite>false</q3:Overwrite>
                     <q3:Suffix>FileCount</q3:Suffix>
@@ -1353,7 +1353,7 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q3:TextWriter">
-                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\video_syncTS</q3:FileName>
+                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\video_syncTS</q3:FileName>
                       <q3:Suffix>FileCount</q3:Suffix>
                       <q3:Buffered>true</q3:Buffered>
                       <q3:Overwrite>false</q3:Overwrite>
@@ -1735,9 +1735,14 @@ def process(value):
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q3:SerialStringWrite">
-                            <q3:PortName>COM4</q3:PortName>
+                            <q3:PortName>COM5</q3:PortName>
                             <q3:NewLine>\r\n</q3:NewLine>
                           </Combinator>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+                          <MemberName>PortName</MemberName>
+                          <Name>PortName</Name>
+                          <Value>COM5</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -1795,6 +1800,11 @@ def process(value):
                           <From>9</From>
                           <To>10</To>
                           <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>11</From>
+                          <To>10</To>
+                          <Label>Source2</Label>
                         </Edge>
                       </Edges>
                     </Workflow>
@@ -1947,6 +1957,11 @@ def process(value):
                       <q7:ThresholdType>BinaryInv</q7:ThresholdType>
                     </Combinator>
                   </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+                    <MemberName>PortName</MemberName>
+                    <Name>PortName</Name>
+                    <Value>COM5</Value>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge>
@@ -2059,6 +2074,11 @@ def process(value):
                     <To>14</To>
                     <Label>Source1</Label>
                   </Edge>
+                  <Edge>
+                    <From>20</From>
+                    <To>3</To>
+                    <Label>Source2</Label>
+                  </Edge>
                 </Edges>
               </Workflow>
             </Expression>
@@ -2084,12 +2104,25 @@ dayone = date.today()
 
 def process(value):
   file = open(value.Item2+'counter.txt','r') 
-  #num=str(int(file.read())-1)
+#  num=str(int(file.read())-1)
   num = file.read()
   file.close()
+#  num='0'
+#  today = date.today()
+#  sep="\\"
+#  month='{0:d}'.format(today.month)
+#  d1='{:%Y%m%d}'.format(dayone)  
+#  d='{:%Y%m%d}'.format(today)    
+#  T=time.strftime("%H%M", time.localtime())
+  fname = value.Item2 +'video' + num + '.avi'
 
-  fname=value.Item2 + 'video' + num + '.avi'
+#  fname=value + 'video' + num + '.avi'
   pipe=pipename + num
+
+  num = str(int(num)+1)
+  file = open(value.Item2 + 'counter.txt','w') 
+  file.write(num)
+  file.close()
   inrate=50
   outrate=inrate
   brate="3M"
@@ -2105,38 +2138,6 @@ def process(value):
             </Expression>
             <Expression xsi:type="MemberSelector">
               <Selector>Source.Item1</Selector>
-            </Expression>
-            <Expression xsi:type="Condition">
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="BooleanProperty">
-                      <Value>true</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
-                    <MemberName>Value</MemberName>
-                    <Name>Save</Name>
-                    <Value>true</Value>
-                  </Expression>
-                </Nodes>
-                <Edges>
-                  <Edge>
-                    <From>2</From>
-                    <To>1</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                </Edges>
-              </Workflow>
             </Expression>
             <Expression xsi:type="Condition">
               <Workflow>
@@ -2206,6 +2207,28 @@ def process(value):
                   </Edge>
                 </Edges>
               </Workflow>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item2</Selector>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfStringImageWriter">
+              <MemberName>Path</MemberName>
+              <Name>Path</Name>
+              <Value>\\.\pipe\video_all0</Value>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="SubscribeWhen" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Timer">
+                <DueTime>PT2S</DueTime>
+                <Period>PT0S</Period>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+              <MemberName>PortName</MemberName>
+              <Name>PortName</Name>
+              <Value>COM5</Value>
             </Expression>
             <Expression xsi:type="NestedWorkflow">
               <Name>BehavioralTriggering</Name>
@@ -2369,7 +2392,7 @@ def process(value):
                               <Expression xsi:type="WorkflowOutput" />
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="q3:SerialStringWrite">
-                                  <q3:PortName>COM4</q3:PortName>
+                                  <q3:PortName>COM5</q3:PortName>
                                   <q3:NewLine>\r\n</q3:NewLine>
                                 </Combinator>
                               </Expression>
@@ -2380,6 +2403,11 @@ def process(value):
                               </Expression>
                               <Expression xsi:type="WorkflowInput">
                                 <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+                                <MemberName>PortName</MemberName>
+                                <Name>PortName</Name>
+                                <Value>COM5</Value>
                               </Expression>
                             </Nodes>
                             <Edges>
@@ -2398,8 +2426,18 @@ def process(value):
                                 <To>2</To>
                                 <Label>Source1</Label>
                               </Edge>
+                              <Edge>
+                                <From>4</From>
+                                <To>1</To>
+                                <Label>Source2</Label>
+                              </Edge>
                             </Edges>
                           </Workflow>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+                          <MemberName>PortName</MemberName>
+                          <Name>PortName</Name>
+                          <Value>COM5</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -2423,6 +2461,11 @@ def process(value):
                           <To>2</To>
                           <Label>Source1</Label>
                         </Edge>
+                        <Edge>
+                          <From>5</From>
+                          <To>4</To>
+                          <Label>Source2</Label>
+                        </Edge>
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -2445,7 +2488,7 @@ def process(value):
                               <Expression xsi:type="WorkflowOutput" />
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="q3:SerialStringWrite">
-                                  <q3:PortName>COM4</q3:PortName>
+                                  <q3:PortName>COM5</q3:PortName>
                                   <q3:NewLine>\r\n</q3:NewLine>
                                 </Combinator>
                               </Expression>
@@ -2456,6 +2499,11 @@ def process(value):
                               </Expression>
                               <Expression xsi:type="WorkflowInput">
                                 <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+                                <MemberName>PortName</MemberName>
+                                <Name>PortName</Name>
+                                <Value>COM5</Value>
                               </Expression>
                             </Nodes>
                             <Edges>
@@ -2473,6 +2521,11 @@ def process(value):
                                 <From>3</From>
                                 <To>2</To>
                                 <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>4</From>
+                                <To>1</To>
+                                <Label>Source2</Label>
                               </Edge>
                             </Edges>
                           </Workflow>
@@ -2495,6 +2548,11 @@ def process(value):
                             </Edges>
                           </Workflow>
                         </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+                          <MemberName>PortName</MemberName>
+                          <Name>PortName</Name>
+                          <Value>COM5</Value>
+                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge>
@@ -2516,6 +2574,11 @@ def process(value):
                           <From>4</From>
                           <To>0</To>
                           <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>5</From>
+                          <To>2</To>
+                          <Label>Source2</Label>
                         </Edge>
                       </Edges>
                     </Workflow>
@@ -2669,6 +2732,11 @@ def process(value):
                     <MemberName>DueTime</MemberName>
                     <Name>DeadTime</Name>
                     <Value>PT5S</Value>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+                    <MemberName>PortName</MemberName>
+                    <Name>PortName</Name>
+                    <Value>COM5</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -2867,49 +2935,44 @@ def process(value):
                     <To>8</To>
                     <Label>Source2</Label>
                   </Edge>
+                  <Edge>
+                    <From>34</From>
+                    <To>19</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>34</From>
+                    <To>20</To>
+                    <Label>Source2</Label>
+                  </Edge>
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Source.Item2</Selector>
-            </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>DataPath</Name>
-            </Expression>
-            <Expression xsi:type="ExternalizedPropertyOfStringImageWriter">
-              <MemberName>Path</MemberName>
-              <Name>Path</Name>
-              <Value>\\.\pipe\video_all</Value>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="SubscribeWhen" />
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="CombineLatest" />
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="Timer">
-                <DueTime>PT2S</DueTime>
-                <Period>PT0S</Period>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="q4:PythonTransform">
-              <q4:Name>ReadCounter</q4:Name>
-              <q4:Script>@returns(str)
-def process(value):
-  file = open(value + 'counter.txt','r') 
-  num=file.read()
-  fname = r'\\.\pipe\video_all' + num
-  return fname</q4:Script>
-            </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>DataPath</Name>
+            </Expression>
+            <Expression xsi:type="q4:PythonTransform">
+              <q4:Script>@returns(str)
+def process(value):
+  fname = value + 'counter.txt'
+  file= open(fname,'r') 
+  num=file.read()
+  file.close()
+  path = '\\\\.\pipe\\video_all' + num
+
+  return path</q4:Script>
             </Expression>
           </Nodes>
           <Edges>
             <Edge>
               <From>3</From>
-              <To>18</To>
+              <To>16</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -2919,7 +2982,7 @@ def process(value):
             </Edge>
             <Edge>
               <From>6</From>
-              <To>14</To>
+              <To>1</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -2934,7 +2997,7 @@ def process(value):
             </Edge>
             <Edge>
               <From>8</From>
-              <To>16</To>
+              <To>15</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -2949,7 +3012,7 @@ def process(value):
             </Edge>
             <Edge>
               <From>8</From>
-              <To>17</To>
+              <To>21</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -2969,7 +3032,7 @@ def process(value):
             </Edge>
             <Edge>
               <From>11</From>
-              <To>22</To>
+              <To>18</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -2979,67 +3042,67 @@ def process(value):
             </Edge>
             <Edge>
               <From>14</From>
-              <To>1</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>15</From>
               <To>13</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>15</From>
-              <To>14</To>
+              <From>14</From>
+              <To>15</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
-              <From>15</From>
-              <To>16</To>
-              <Label>Source2</Label>
-            </Edge>
-            <Edge>
-              <From>15</From>
+              <From>14</From>
               <To>4</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>16</From>
+              <From>15</From>
               <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>17</From>
+              <To>0</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>18</From>
+              <To>23</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>19</From>
-              <To>22</To>
+              <To>18</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
               <From>20</From>
-              <To>0</To>
+              <To>6</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
-              <From>21</From>
+              <From>20</From>
+              <To>21</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>22</From>
+              <To>23</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>23</From>
               <To>9</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>22</From>
-              <To>21</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>23</From>
-              <To>21</To>
-              <Label>Source2</Label>
-            </Edge>
-            <Edge>
               <From>24</From>
-              <To>20</To>
+              <To>25</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>25</From>
-              <To>24</To>
+              <To>17</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
@@ -3053,27 +3116,12 @@ def process(value):
       <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
         <MemberName>Save</MemberName>
         <Name>SaveEphys</Name>
-        <Value>true</Value>
+        <Value>false</Value>
       </Expression>
-      <Expression xsi:type="q4:PythonTransform">
-        <q4:Name>LogCounter</q4:Name>
-        <q4:Script>@returns(str)
-def process(value):
-  file = open(value.Item2 + 'counter.txt','r') 
-  num=int(file.read())+1
-  file.close()
-  file = open(value.Item2 + 'counter.txt','w') 
-  file.write(str(num))
-  file.close()
-  return str(num)</q4:Script>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="CombineLatest" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="Take">
-          <Count>1</Count>
-        </Combinator>
+      <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+        <MemberName>PortName</MemberName>
+        <Name>PortName</Name>
+        <Value>COM5</Value>
       </Expression>
     </Nodes>
     <Edges>
@@ -3108,11 +3156,6 @@ def process(value):
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>7</From>
-        <To>16</To>
-        <Label>Source2</Label>
-      </Edge>
-      <Edge>
         <From>9</From>
         <To>12</To>
         <Label>Source1</Label>
@@ -3128,11 +3171,6 @@ def process(value):
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>12</From>
-        <To>17</To>
-        <Label>Source1</Label>
-      </Edge>
-      <Edge>
         <From>13</From>
         <To>12</To>
         <Label>Source2</Label>
@@ -3143,14 +3181,14 @@ def process(value):
         <Label>Source2</Label>
       </Edge>
       <Edge>
-        <From>16</From>
-        <To>15</To>
-        <Label>Source1</Label>
+        <From>15</From>
+        <To>3</To>
+        <Label>Source2</Label>
       </Edge>
       <Edge>
-        <From>17</From>
-        <To>16</To>
-        <Label>Source1</Label>
+        <From>15</From>
+        <To>12</To>
+        <Label>Source3</Label>
       </Edge>
     </Edges>
   </Workflow>
@@ -3204,6 +3242,7 @@ def process(value):
     <Type>Bonsai.Vision.Grayscale, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Take, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.LogicalOrBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.IO.SerialStringWrite, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ScanBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.ToList, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.ElementCountWindow, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -3213,6 +3252,8 @@ def process(value):
     <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.MaskPolygon, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.Threshold, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.SubscribeWhen, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Repeat, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Amb, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -3220,7 +3261,5 @@ def process(value):
     <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Vision.RoiActivityDetected, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedTimeSpan`1[[Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.SubscribeWhen, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>
