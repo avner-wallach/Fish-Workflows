@@ -98,6 +98,7 @@
       </Expression>
       <Expression xsi:type="q4:PythonTransform">
         <q4:Script>import time
+import os
 from datetime import date
 today = date.today()
 @returns(str)
@@ -105,7 +106,18 @@ def process(value):
   sep="\\"
   month='{0:d}'.format(today.month)
   d='{:%Y%m%d}'.format(today)
-  return value+d+sep</q4:Script>
+  path=value+d+sep
+  if not os.path.exists(path):
+    os.mkdir(path)
+
+  fname = path+'counter.txt'
+  if not os.path.isfile(str(fname)):
+    file= open(fname,'w') 
+    file.write(str(0))
+    file.close()
+
+
+  return path</q4:Script>
       </Expression>
       <Expression xsi:type="SelectMany">
         <Name>PeriodicEphys</Name>
@@ -126,7 +138,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q5:MatrixWriter">
-                      <q5:Path>C:\Users\Ephys\Documents\bonsai-data\Avner\20180425\adc_</q5:Path>
+                      <q5:Path>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\adc_</q5:Path>
                       <q5:Suffix>FileCount</q5:Suffix>
                       <q5:Overwrite>false</q5:Overwrite>
                       <q5:Layout>RowMajor</q5:Layout>
@@ -496,7 +508,7 @@ def process(value):
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="q3:CsvWriter">
-                          <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180425\pulses_</q3:FileName>
+                          <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\pulses_</q3:FileName>
                           <q3:Append>true</q3:Append>
                           <q3:Overwrite>true</q3:Overwrite>
                           <q3:Suffix>FileCount</q3:Suffix>
@@ -506,7 +518,7 @@ def process(value):
                         <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
                           <MemberName>FileName</MemberName>
                           <Name>FileName</Name>
-                          <Value>C:\Users\Ephys\Documents\bonsai-data\Avner\20180425\pulses_</Value>
+                          <Value>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\pulses_</Value>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfArrayOfDoubleDetectSpikes">
                           <MemberName>Threshold</MemberName>
@@ -925,7 +937,7 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q3:TextWriter">
-                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180425\ephysTS_</q3:FileName>
+                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\ephysTS_</q3:FileName>
                       <q3:Suffix>FileCount</q3:Suffix>
                       <q3:Buffered>true</q3:Buffered>
                       <q3:Overwrite>false</q3:Overwrite>
@@ -1097,8 +1109,8 @@ def process(value):
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="TimeSpanWindow">
-          <TimeSpan>PT30M</TimeSpan>
-          <TimeShift>PT30M20S</TimeShift>
+          <TimeSpan>PT20S</TimeSpan>
+          <TimeShift>PT20S</TimeShift>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -1118,7 +1130,7 @@ def process(value):
           <Nodes>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q7:ImageWriter">
-                <q7:Path>\\.\pipe\video_all</q7:Path>
+                <q7:Path>\\.\pipe\video_all0</q7:Path>
                 <q7:Suffix>None</q7:Suffix>
                 <q7:Overwrite>false</q7:Overwrite>
               </Combinator>
@@ -1132,7 +1144,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="q3:CsvWriter">
-                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180425\tracking_</q3:FileName>
+                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\tracking_</q3:FileName>
                     <q3:Append>false</q3:Append>
                     <q3:Overwrite>false</q3:Overwrite>
                     <q3:Suffix>FileCount</q3:Suffix>
@@ -1209,7 +1221,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="q3:CsvWriter">
-                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180425\videoTS_</q3:FileName>
+                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\videoTS_</q3:FileName>
                     <q3:Append>false</q3:Append>
                     <q3:Overwrite>false</q3:Overwrite>
                     <q3:Suffix>FileCount</q3:Suffix>
@@ -1341,7 +1353,7 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q3:TextWriter">
-                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180425\video_syncTS</q3:FileName>
+                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180427\video_syncTS</q3:FileName>
                       <q3:Suffix>FileCount</q3:Suffix>
                       <q3:Buffered>true</q3:Buffered>
                       <q3:Overwrite>false</q3:Overwrite>
@@ -2071,103 +2083,25 @@ pipename = r'\\.\pipe\video_all'
 dayone = date.today()
 
 def process(value):
-  today = date.today()
-  sep="\\"
-  month='{0:d}'.format(today.month)
-  d1='{:%Y%m%d}'.format(dayone)  
-  d='{:%Y%m%d}'.format(today)    
-  T=time.strftime("%H%M", time.localtime())
-  fname = "C:\\Users\\Ephys\\Documents\\bonsai-data\\Avner\\"+d1+sep+"video_"+d+"_"+T+".avi"
+  file = open(value.Item2+'counter.txt','r') 
+  #num=str(int(file.read())-1)
+  num = file.read()
+  file.close()
 
+  fname=value.Item2 + 'video' + num + '.avi'
+  pipe=pipename + num
   inrate=50
-
   outrate=inrate
-  
   brate="3M"
-
-  width = value.Item3.Width
-  height =value.Item3.Height
-
-  cropW  = value.Item1
-  cropH  = value.Item2
-  cropX  = width/2-cropW/2
-  cropY  = height/2-cropH/2
-
-  sideW= value.Item5
-
-
-  os.system(str.format(r'ffmpeg -f rawvideo -vcodec rawvideo -y -s {0}x{1} -r {2} -pix_fmt gray -i {3} -vcodec mpeg4 -pix_fmt yuv420p -vb {4} -r {5} {6}',width,height,inrate,pipename,brate,outrate,fname)) 
-</q4:Script>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="SubscribeWhen" />
+  width = value.Item1.Width
+  height =value.Item1.Height
+  os.system(str.format(r'ffmpeg -f rawvideo -vcodec rawvideo -y -s {0}x{1} -r {2} -pix_fmt gray -i {3} -vcodec mpeg4 -pix_fmt yuv420p -vb {4} -r {5} {6}',width,height,inrate,pipe,brate,outrate,fname))</q4:Script>
             </Expression>
             <Expression xsi:type="WorkflowInput">
               <Name>Source1</Name>
             </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="Zip" />
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="Timer">
-                <DueTime>PT2S</DueTime>
-                <Period>PT0S</Period>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="IntProperty">
-                <Value>200</Value>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="IntProperty">
-                <Value>650</Value>
-              </Combinator>
-            </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>FrameSize</Name>
-            </Expression>
-            <Expression xsi:type="ExternalizedPropertyOfInt32IntProperty">
-              <MemberName>Value</MemberName>
-              <Name>CropWidth</Name>
-              <Value>200</Value>
-            </Expression>
-            <Expression xsi:type="ExternalizedPropertyOfInt32IntProperty">
-              <MemberName>Value</MemberName>
-              <Name>CropHeight</Name>
-              <Value>650</Value>
-            </Expression>
-            <Expression xsi:type="ReplaySubject">
-              <Name>CropSize</Name>
-              <BufferSize xsi:nil="true" />
-            </Expression>
-            <Expression xsi:type="SubscribeSubject">
-              <Name>CropSize</Name>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="Take">
-                <Count>1</Count>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="IntProperty">
-                <Value>1200</Value>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="IntProperty">
-                <Value>280</Value>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="ExternalizedPropertyOfInt32IntProperty">
-              <MemberName>Value</MemberName>
-              <Name>SideX</Name>
-              <Value>1200</Value>
-            </Expression>
-            <Expression xsi:type="ExternalizedPropertyOfInt32IntProperty">
-              <MemberName>Value</MemberName>
-              <Name>SideWidth</Name>
-              <Value>280</Value>
             </Expression>
             <Expression xsi:type="MemberSelector">
               <Selector>Source.Item1</Selector>
@@ -2939,11 +2873,43 @@ def process(value):
             <Expression xsi:type="MemberSelector">
               <Selector>Source.Item2</Selector>
             </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DataPath</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfStringImageWriter">
+              <MemberName>Path</MemberName>
+              <Name>Path</Name>
+              <Value>\\.\pipe\video_all</Value>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="SubscribeWhen" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="CombineLatest" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Timer">
+                <DueTime>PT2S</DueTime>
+                <Period>PT0S</Period>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="q4:PythonTransform">
+              <q4:Name>ReadCounter</q4:Name>
+              <q4:Script>@returns(str)
+def process(value):
+  file = open(value + 'counter.txt','r') 
+  num=file.read()
+  fname = r'\\.\pipe\video_all' + num
+  return fname</q4:Script>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DataPath</Name>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge>
               <From>3</From>
-              <To>32</To>
+              <To>18</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -2953,12 +2919,12 @@ def process(value):
             </Edge>
             <Edge>
               <From>6</From>
-              <To>28</To>
+              <To>14</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>6</From>
-              <To>26</To>
+              <To>12</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -2968,7 +2934,7 @@ def process(value):
             </Edge>
             <Edge>
               <From>8</From>
-              <To>30</To>
+              <To>16</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -2983,127 +2949,97 @@ def process(value):
             </Edge>
             <Edge>
               <From>8</From>
-              <To>31</To>
+              <To>17</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>10</From>
-              <To>9</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>11</From>
               <To>8</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>11</From>
-              <To>27</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>11</From>
+              <From>10</From>
               <To>4</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
-              <From>12</From>
-              <To>21</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>13</From>
-              <To>10</To>
+              <From>10</From>
+              <To>13</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
-              <From>14</From>
-              <To>12</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>15</From>
-              <To>12</To>
-              <Label>Source2</Label>
-            </Edge>
-            <Edge>
-              <From>16</From>
-              <To>12</To>
-              <Label>Source3</Label>
-            </Edge>
-            <Edge>
-              <From>17</From>
-              <To>14</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>18</From>
-              <To>15</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>20</From>
-              <To>10</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>21</From>
-              <To>19</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>22</From>
-              <To>12</To>
-              <Label>Source4</Label>
-            </Edge>
-            <Edge>
-              <From>23</From>
-              <To>12</To>
-              <Label>Source5</Label>
-            </Edge>
-            <Edge>
-              <From>24</From>
+              <From>11</From>
               <To>22</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>25</From>
-              <To>23</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>27</From>
+              <From>13</From>
               <To>3</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>28</From>
+              <From>14</From>
               <To>1</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>29</From>
-              <To>27</To>
+              <From>15</From>
+              <To>13</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>15</From>
+              <To>14</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
-              <From>29</From>
-              <To>28</To>
+              <From>15</From>
+              <To>16</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
-              <From>29</From>
-              <To>30</To>
-              <Label>Source2</Label>
-            </Edge>
-            <Edge>
-              <From>29</From>
+              <From>15</From>
               <To>4</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>30</From>
+              <From>16</From>
               <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>19</From>
+              <To>22</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>20</From>
+              <To>0</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>21</From>
+              <To>9</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>22</From>
+              <To>21</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>23</From>
+              <To>21</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>24</From>
+              <To>20</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>25</From>
+              <To>24</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
@@ -3118,6 +3054,26 @@ def process(value):
         <MemberName>Save</MemberName>
         <Name>SaveEphys</Name>
         <Value>true</Value>
+      </Expression>
+      <Expression xsi:type="q4:PythonTransform">
+        <q4:Name>LogCounter</q4:Name>
+        <q4:Script>@returns(str)
+def process(value):
+  file = open(value.Item2 + 'counter.txt','r') 
+  num=int(file.read())+1
+  file.close()
+  file = open(value.Item2 + 'counter.txt','w') 
+  file.write(str(num))
+  file.close()
+  return str(num)</q4:Script>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="CombineLatest" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Take">
+          <Count>1</Count>
+        </Combinator>
       </Expression>
     </Nodes>
     <Edges>
@@ -3152,6 +3108,11 @@ def process(value):
         <Label>Source1</Label>
       </Edge>
       <Edge>
+        <From>7</From>
+        <To>16</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
         <From>9</From>
         <To>12</To>
         <Label>Source1</Label>
@@ -3167,6 +3128,11 @@ def process(value):
         <Label>Source1</Label>
       </Edge>
       <Edge>
+        <From>12</From>
+        <To>17</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>13</From>
         <To>12</To>
         <Label>Source2</Label>
@@ -3175,6 +3141,16 @@ def process(value):
         <From>14</From>
         <To>8</To>
         <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>16</From>
+        <To>15</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>17</From>
+        <To>16</To>
+        <Label>Source1</Label>
       </Edge>
     </Edges>
   </Workflow>
@@ -3237,8 +3213,6 @@ def process(value):
     <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.MaskPolygon, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.Threshold, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Reactive.SubscribeWhen, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.IntProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Repeat, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Amb, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -3246,5 +3220,7 @@ def process(value):
     <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Vision.RoiActivityDetected, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedTimeSpan`1[[Bonsai.Reactive.Delay, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.SubscribeWhen, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>
