@@ -45,7 +45,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q3:SerialStringWrite">
-          <q3:PortName>COM5</q3:PortName>
+          <q3:PortName>COM4</q3:PortName>
           <q3:NewLine>\r\n</q3:NewLine>
         </Combinator>
       </Expression>
@@ -138,7 +138,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q5:MatrixWriter">
-                      <q5:Path>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\adc_</q5:Path>
+                      <q5:Path>C:\Users\Ephys\Documents\bonsai-data\Avner\20180507\adc_</q5:Path>
                       <q5:Suffix>FileCount</q5:Suffix>
                       <q5:Overwrite>false</q5:Overwrite>
                       <q5:Layout>RowMajor</q5:Layout>
@@ -508,7 +508,7 @@ def process(value):
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="q3:CsvWriter">
-                          <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\pulses_</q3:FileName>
+                          <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180507\pulses_</q3:FileName>
                           <q3:Append>true</q3:Append>
                           <q3:Overwrite>true</q3:Overwrite>
                           <q3:Suffix>FileCount</q3:Suffix>
@@ -518,7 +518,7 @@ def process(value):
                         <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
                           <MemberName>FileName</MemberName>
                           <Name>FileName</Name>
-                          <Value>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\pulses_</Value>
+                          <Value>C:\Users\Ephys\Documents\bonsai-data\Avner\20180507\pulses_</Value>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfArrayOfDoubleDetectSpikes">
                           <MemberName>Threshold</MemberName>
@@ -937,7 +937,7 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q3:TextWriter">
-                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\ephysTS_</q3:FileName>
+                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180507\ephysTS_</q3:FileName>
                       <q3:Suffix>FileCount</q3:Suffix>
                       <q3:Buffered>true</q3:Buffered>
                       <q3:Overwrite>false</q3:Overwrite>
@@ -1130,7 +1130,7 @@ def process(value):
           <Nodes>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q7:ImageWriter">
-                <q7:Path>\\.\pipe\video_all4</q7:Path>
+                <q7:Path>\\.\pipe\video_all429</q7:Path>
                 <q7:Suffix>None</q7:Suffix>
                 <q7:Overwrite>false</q7:Overwrite>
               </Combinator>
@@ -1144,7 +1144,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="q3:CsvWriter">
-                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\tracking_</q3:FileName>
+                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180507\tracking_</q3:FileName>
                     <q3:Append>false</q3:Append>
                     <q3:Overwrite>false</q3:Overwrite>
                     <q3:Suffix>FileCount</q3:Suffix>
@@ -1221,7 +1221,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="q3:CsvWriter">
-                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\videoTS_</q3:FileName>
+                    <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180507\videoTS_</q3:FileName>
                     <q3:Append>false</q3:Append>
                     <q3:Overwrite>false</q3:Overwrite>
                     <q3:Suffix>FileCount</q3:Suffix>
@@ -1263,6 +1263,43 @@ def process(value):
                   <Expression xsi:type="MemberSelector">
                     <Selector>Source.Metadata.embeddedTimeStamp</Selector>
                   </Expression>
+                  <Expression xsi:type="Condition">
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="BooleanProperty">
+                            <Value>false</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                          <MemberName>Value</MemberName>
+                          <Name>Save</Name>
+                          <Value>false</Value>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>2</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                    <MemberName>Save</MemberName>
+                    <Name>Save</Name>
+                    <Value>false</Value>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge>
@@ -1276,19 +1313,19 @@ def process(value):
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
-                    <From>2</From>
-                    <To>1</To>
+                    <From>3</From>
+                    <To>14</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>3</From>
-                    <To>2</To>
+                    <To>1</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>4</From>
                     <To>2</To>
-                    <Label>Source2</Label>
+                    <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>5</From>
@@ -1340,6 +1377,16 @@ def process(value):
                     <To>3</To>
                     <Label>Source1</Label>
                   </Edge>
+                  <Edge>
+                    <From>14</From>
+                    <To>2</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>15</From>
+                    <To>14</To>
+                    <Label>Source2</Label>
+                  </Edge>
                 </Edges>
               </Workflow>
             </Expression>
@@ -1353,7 +1400,7 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q3:TextWriter">
-                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180503\video_syncTS</q3:FileName>
+                      <q3:FileName>C:\Users\Ephys\Documents\bonsai-data\Avner\20180507\video_syncTS</q3:FileName>
                       <q3:Suffix>FileCount</q3:Suffix>
                       <q3:Buffered>true</q3:Buffered>
                       <q3:Overwrite>false</q3:Overwrite>
@@ -1508,13 +1555,13 @@ def process(value):
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="BooleanProperty">
-                            <Value>true</Value>
+                            <Value>false</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Value</MemberName>
                           <Name>Save</Name>
-                          <Value>true</Value>
+                          <Value>false</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -1534,7 +1581,7 @@ def process(value):
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>true</Value>
+                    <Value>false</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1735,14 +1782,14 @@ def process(value):
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q3:SerialStringWrite">
-                            <q3:PortName>COM5</q3:PortName>
+                            <q3:PortName>COM4</q3:PortName>
                             <q3:NewLine>\r\n</q3:NewLine>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
                           <MemberName>PortName</MemberName>
                           <Name>PortName</Name>
-                          <Value>COM5</Value>
+                          <Value>COM4</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -1924,20 +1971,20 @@ def process(value):
                       <q7:Regions>
                         <q7:ArrayOfPoint>
                           <q7:Point>
-                            <q7:X>29</q7:X>
-                            <q7:Y>-1</q7:Y>
+                            <q7:X>53</q7:X>
+                            <q7:Y>36</q7:Y>
                           </q7:Point>
                           <q7:Point>
-                            <q7:X>1020</q7:X>
-                            <q7:Y>-1</q7:Y>
+                            <q7:X>989</q7:X>
+                            <q7:Y>38</q7:Y>
                           </q7:Point>
                           <q7:Point>
-                            <q7:X>1020</q7:X>
-                            <q7:Y>1180</q7:Y>
+                            <q7:X>988</q7:X>
+                            <q7:Y>1195</q7:Y>
                           </q7:Point>
                           <q7:Point>
-                            <q7:X>29</q7:X>
-                            <q7:Y>1180</q7:Y>
+                            <q7:X>33</q7:X>
+                            <q7:Y>1181</q7:Y>
                           </q7:Point>
                         </q7:ArrayOfPoint>
                       </q7:Regions>
@@ -1952,7 +1999,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q7:Threshold">
-                      <q7:ThresholdValue>25</q7:ThresholdValue>
+                      <q7:ThresholdValue>42</q7:ThresholdValue>
                       <q7:MaxValue>255</q7:MaxValue>
                       <q7:ThresholdType>BinaryInv</q7:ThresholdType>
                     </Combinator>
@@ -1960,7 +2007,7 @@ def process(value):
                   <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
                     <MemberName>PortName</MemberName>
                     <Name>PortName</Name>
-                    <Value>COM5</Value>
+                    <Value>COM4</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -2139,42 +2186,10 @@ def process(value):
             <Expression xsi:type="MemberSelector">
               <Selector>Source.Item1</Selector>
             </Expression>
-            <Expression xsi:type="Condition">
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="BooleanProperty">
-                      <Value>true</Value>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
-                    <MemberName>Value</MemberName>
-                    <Name>Save</Name>
-                    <Value>true</Value>
-                  </Expression>
-                </Nodes>
-                <Edges>
-                  <Edge>
-                    <From>2</From>
-                    <To>1</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                  <Edge>
-                    <From>3</From>
-                    <To>2</To>
-                    <Label>Source1</Label>
-                  </Edge>
-                </Edges>
-              </Workflow>
-            </Expression>
             <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
               <MemberName>Save</MemberName>
               <Name>Save</Name>
-              <Value>true</Value>
+              <Value>false</Value>
             </Expression>
             <Expression xsi:type="Condition">
               <Workflow>
@@ -2185,13 +2200,13 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="BooleanProperty">
-                      <Value>true</Value>
+                      <Value>false</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Value</MemberName>
                     <Name>Save</Name>
-                    <Value>true</Value>
+                    <Value>false</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -2228,7 +2243,7 @@ def process(value):
             <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
               <MemberName>PortName</MemberName>
               <Name>PortName</Name>
-              <Value>COM5</Value>
+              <Value>COM4</Value>
             </Expression>
             <Expression xsi:type="NestedWorkflow">
               <Name>BehavioralTriggering</Name>
@@ -2252,19 +2267,19 @@ def process(value):
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q7:RoiActivityDetected">
                       <q7:Index>0</q7:Index>
-                      <q7:Threshold>10000</q7:Threshold>
+                      <q7:Threshold>50000</q7:Threshold>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q7:RoiActivityDetected">
                       <q7:Index>1</q7:Index>
-                      <q7:Threshold>10000</q7:Threshold>
+                      <q7:Threshold>1000</q7:Threshold>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q7:RoiActivityDetected">
                       <q7:Index>2</q7:Index>
-                      <q7:Threshold>10000</q7:Threshold>
+                      <q7:Threshold>5000</q7:Threshold>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -2277,7 +2292,7 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q7:Threshold">
-                      <q7:ThresholdValue>18</q7:ThresholdValue>
+                      <q7:ThresholdValue>20</q7:ThresholdValue>
                       <q7:MaxValue>255</q7:MaxValue>
                       <q7:ThresholdType>BinaryInv</q7:ThresholdType>
                     </Combinator>
@@ -2300,20 +2315,20 @@ def process(value):
                       <q7:Regions>
                         <q7:ArrayOfPoint>
                           <q7:Point>
-                            <q7:X>138</q7:X>
-                            <q7:Y>126</q7:Y>
+                            <q7:X>92</q7:X>
+                            <q7:Y>56</q7:Y>
                           </q7:Point>
                           <q7:Point>
-                            <q7:X>925</q7:X>
-                            <q7:Y>114</q7:Y>
+                            <q7:X>934</q7:X>
+                            <q7:Y>87</q7:Y>
                           </q7:Point>
                           <q7:Point>
-                            <q7:X>925</q7:X>
-                            <q7:Y>522</q7:Y>
+                            <q7:X>946</q7:X>
+                            <q7:Y>679</q7:Y>
                           </q7:Point>
                           <q7:Point>
-                            <q7:X>137</q7:X>
-                            <q7:Y>521</q7:Y>
+                            <q7:X>66</q7:X>
+                            <q7:Y>677</q7:Y>
                           </q7:Point>
                         </q7:ArrayOfPoint>
                         <q7:ArrayOfPoint>
@@ -2392,7 +2407,7 @@ def process(value):
                               <Expression xsi:type="WorkflowOutput" />
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="q3:SerialStringWrite">
-                                  <q3:PortName>COM5</q3:PortName>
+                                  <q3:PortName>COM4</q3:PortName>
                                   <q3:NewLine>\r\n</q3:NewLine>
                                 </Combinator>
                               </Expression>
@@ -2407,7 +2422,7 @@ def process(value):
                               <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
                                 <MemberName>PortName</MemberName>
                                 <Name>PortName</Name>
-                                <Value>COM5</Value>
+                                <Value>COM4</Value>
                               </Expression>
                             </Nodes>
                             <Edges>
@@ -2437,7 +2452,7 @@ def process(value):
                         <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
                           <MemberName>PortName</MemberName>
                           <Name>PortName</Name>
-                          <Value>COM5</Value>
+                          <Value>COM4</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -2488,7 +2503,7 @@ def process(value):
                               <Expression xsi:type="WorkflowOutput" />
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="q3:SerialStringWrite">
-                                  <q3:PortName>COM5</q3:PortName>
+                                  <q3:PortName>COM4</q3:PortName>
                                   <q3:NewLine>\r\n</q3:NewLine>
                                 </Combinator>
                               </Expression>
@@ -2503,7 +2518,7 @@ def process(value):
                               <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
                                 <MemberName>PortName</MemberName>
                                 <Name>PortName</Name>
-                                <Value>COM5</Value>
+                                <Value>COM4</Value>
                               </Expression>
                             </Nodes>
                             <Edges>
@@ -2551,7 +2566,7 @@ def process(value):
                         <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
                           <MemberName>PortName</MemberName>
                           <Name>PortName</Name>
-                          <Value>COM5</Value>
+                          <Value>COM4</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -2725,8 +2740,8 @@ def process(value):
                   </Expression>
                   <Expression xsi:type="ExternalizedPropertyOfDoubleRoiActivityDetected">
                     <MemberName>Threshold</MemberName>
-                    <Name>Threshold</Name>
-                    <Value>10000</Value>
+                    <Name>ThresholdHome</Name>
+                    <Value>50000</Value>
                   </Expression>
                   <Expression xsi:type="ExternalizedTimeSpanOfDelay">
                     <MemberName>DueTime</MemberName>
@@ -2736,7 +2751,17 @@ def process(value):
                   <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
                     <MemberName>PortName</MemberName>
                     <Name>PortName</Name>
-                    <Value>COM5</Value>
+                    <Value>COM4</Value>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfDoubleRoiActivityDetected">
+                    <MemberName>Threshold</MemberName>
+                    <Name>ThresholdNear</Name>
+                    <Value>1000</Value>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfDoubleRoiActivityDetected">
+                    <MemberName>Threshold</MemberName>
+                    <Name>Thresholdfar</Name>
+                    <Value>5000</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -2921,16 +2946,6 @@ def process(value):
                     <Label>Source2</Label>
                   </Edge>
                   <Edge>
-                    <From>32</From>
-                    <To>6</To>
-                    <Label>Source2</Label>
-                  </Edge>
-                  <Edge>
-                    <From>32</From>
-                    <To>7</To>
-                    <Label>Source2</Label>
-                  </Edge>
-                  <Edge>
                     <From>33</From>
                     <To>8</To>
                     <Label>Source2</Label>
@@ -2943,6 +2958,16 @@ def process(value):
                   <Edge>
                     <From>34</From>
                     <To>20</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>35</From>
+                    <To>6</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>36</From>
+                    <To>7</To>
                     <Label>Source2</Label>
                   </Edge>
                 </Edges>
@@ -2972,7 +2997,7 @@ def process(value):
           <Edges>
             <Edge>
               <From>3</From>
-              <To>16</To>
+              <To>15</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -2997,7 +3022,7 @@ def process(value):
             </Edge>
             <Edge>
               <From>8</From>
-              <To>15</To>
+              <To>14</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -3012,7 +3037,7 @@ def process(value):
             </Edge>
             <Edge>
               <From>8</From>
-              <To>21</To>
+              <To>20</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -3027,82 +3052,77 @@ def process(value):
             </Edge>
             <Edge>
               <From>10</From>
-              <To>13</To>
-              <Label>Source2</Label>
+              <To>3</To>
+              <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>11</From>
-              <To>18</To>
+              <To>17</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>13</From>
+              <To>14</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>13</From>
+              <To>4</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
               <From>13</From>
               <To>3</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>14</From>
-              <To>13</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>14</From>
-              <To>15</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
               <From>14</From>
-              <To>4</To>
+              <To>0</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>15</From>
+              <From>16</From>
               <To>0</To>
-              <Label>Source1</Label>
+              <Label>Source2</Label>
             </Edge>
             <Edge>
               <From>17</From>
-              <To>0</To>
-              <Label>Source2</Label>
-            </Edge>
-            <Edge>
-              <From>18</From>
-              <To>23</To>
+              <To>22</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>19</From>
-              <To>18</To>
+              <From>18</From>
+              <To>17</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
-              <From>20</From>
+              <From>19</From>
               <To>6</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
-              <From>20</From>
-              <To>21</To>
+              <From>19</From>
+              <To>20</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>21</From>
+              <To>22</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
               <From>22</From>
-              <To>23</To>
-              <Label>Source2</Label>
-            </Edge>
-            <Edge>
-              <From>23</From>
               <To>9</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>24</From>
-              <To>25</To>
+              <From>23</From>
+              <To>24</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
-              <From>25</From>
-              <To>17</To>
+              <From>24</From>
+              <To>16</To>
               <Label>Source1</Label>
             </Edge>
           </Edges>
@@ -3111,7 +3131,7 @@ def process(value):
       <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
         <MemberName>Save</MemberName>
         <Name>SaveVideo</Name>
-        <Value>true</Value>
+        <Value>false</Value>
       </Expression>
       <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
         <MemberName>Save</MemberName>
@@ -3121,7 +3141,7 @@ def process(value):
       <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
         <MemberName>PortName</MemberName>
         <Name>PortName</Name>
-        <Value>COM5</Value>
+        <Value>COM4</Value>
       </Expression>
     </Nodes>
     <Edges>
