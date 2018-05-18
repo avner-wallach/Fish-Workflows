@@ -6,10 +6,11 @@
 
 // defines pins numbers
 const int LEDPin = 13;
+const int AUXPin = 12; //auxilliary output- currently unused
 const int MLeftPin = 10; // left and right commands from master
 const int MRightPin = 11;
-const int TrigUpPin = 9;
-const int TrigDownPin = 8;
+const int Trig1Pin = 9;
+const int Trig2Pin = 8;
 int serbuff = 0;
 
 void setup() {
@@ -17,8 +18,8 @@ void setup() {
   pinMode(LEDPin,OUTPUT);
   pinMode(MLeftPin,OUTPUT);
   pinMode(MRightPin,OUTPUT);
-  pinMode(TrigUpPin,OUTPUT);
-  pinMode(TrigDownPin,OUTPUT);
+  pinMode(Trig1Pin,OUTPUT);
+  pinMode(Trig2Pin,OUTPUT);
 
  //LED off
   digitalWrite(LEDPin,LOW);
@@ -26,8 +27,8 @@ void setup() {
   digitalWrite(MRightPin,LOW);
 
   //resting position of object is DOWN
-  digitalWrite(TrigUpPin,LOW);
-  digitalWrite(TrigDownPin,HIGH);
+  digitalWrite(Trig1Pin,LOW);
+  digitalWrite(Trig2Pin,LOW);
 
   // serial
   Serial.begin(9600);     // opens serial port, sets data rate to 9600 bps
@@ -55,13 +56,18 @@ void loop() {
           digitalWrite(MRightPin,LOW);
           break;
         case 'T':
-          //switch to UP position
-          digitalWrite(TrigUpPin,HIGH);
-          digitalWrite(TrigDownPin,HIGH);
-          delay(250);  //wait 0.1 sec
-          //back to DOWN position
-          digitalWrite(TrigUpPin,LOW);
-          digitalWrite(TrigDownPin,LOW);
+          //trigger relay1
+          digitalWrite(Trig1Pin,HIGH);
+          delay(250);  //wait 0.25 sec
+          //back 
+          digitalWrite(Trig1Pin,LOW);
+          break;
+        case 'G':
+          //trigger relay2
+          digitalWrite(Trig2Pin,HIGH);
+          delay(250);  //wait 0.25 sec
+          //back 
+          digitalWrite(Trig2Pin,LOW);
           break;
       }
         

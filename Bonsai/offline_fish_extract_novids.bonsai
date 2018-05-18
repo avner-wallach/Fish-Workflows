@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.3.0">
-  <Workflow xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q3="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q2="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q1="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns="https://horizongir.org/bonsai">
+  <Workflow xmlns:q1="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q2="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q3="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns="https://horizongir.org/bonsai">
     <Nodes>
       <Expression xsi:type="ReplaySubject">
         <Name>DataPath</Name>
@@ -11,13 +11,13 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="StringProperty">
-          <Value>C:\Users\Avner\Documents\mormyrid data local\</Value>
+          <Value>Z:\AW\mormyrid_data</Value>
         </Combinator>
       </Expression>
       <Expression xsi:type="Add" />
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="StringProperty">
-          <Value>20180222\</Value>
+          <Value>20180508\</Value>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -27,7 +27,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:GetFiles">
-          <q1:Path>C:\Users\Avner\Documents\mormyrid data local\20180222\</q1:Path>
+          <q1:Path>Z:\AW\mormyrid_data20180508\</q1:Path>
           <q1:SearchPattern>*.avi</q1:SearchPattern>
           <q1:SearchOption>TopDirectoryOnly</q1:SearchOption>
         </Combinator>
@@ -1301,6 +1301,16 @@ def process(value):
                   <Expression xsi:type="MemberSelector">
                     <Selector>Source.MajorAxisLength</Selector>
                   </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfDoubleThreshold">
+                    <MemberName>ThresholdValue</MemberName>
+                    <Name>ThresholdValue</Name>
+                    <Value>231</Value>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfThresholdTypesThreshold">
+                    <MemberName>ThresholdType</MemberName>
+                    <Name>ThresholdType</Name>
+                    <Value>Binary</Value>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge>
@@ -1463,6 +1473,16 @@ def process(value):
                     <To>17</To>
                     <Label>Source5</Label>
                   </Edge>
+                  <Edge>
+                    <From>26</From>
+                    <To>15</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>27</From>
+                    <To>15</To>
+                    <Label>Source3</Label>
+                  </Edge>
                 </Edges>
               </Workflow>
             </Expression>
@@ -1485,6 +1505,16 @@ def process(value):
               <Name>FileName</Name>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="ExternalizedPropertyOfDoubleThreshold">
+              <MemberName>ThresholdValue</MemberName>
+              <Name>ThresholdValue</Name>
+              <Value>42</Value>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfThresholdTypesThreshold">
+              <MemberName>ThresholdType</MemberName>
+              <Name>ThresholdType</Name>
+              <Value>BinaryInv</Value>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge>
@@ -1687,6 +1717,16 @@ def process(value):
               <To>34</To>
               <Label>Source1</Label>
             </Edge>
+            <Edge>
+              <From>37</From>
+              <To>32</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>38</From>
+              <To>32</To>
+              <Label>Source3</Label>
+            </Edge>
           </Edges>
         </Workflow>
       </Expression>
@@ -1792,6 +1832,8 @@ def process(value):
     <Type>Bonsai.Vision.MaskPolygon, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.Grayscale, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Reactive.Skip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Vision.Threshold, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[OpenCV.Net.ThresholdTypes, OpenCV.Net, Version=3.3.0.0, Culture=neutral, PublicKeyToken=null],[Bonsai.Vision.Threshold, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Vision.FileCapture, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Vision.FileCapture, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
