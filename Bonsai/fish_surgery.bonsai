@@ -5,9 +5,9 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:Rhd2000EvalBoard">
           <q1:BitFileName>rhd2000_usb3.bit</q1:BitFileName>
-          <q1:SampleRate>SampleRate10000Hz</q1:SampleRate>
+          <q1:SampleRate>SampleRate30000Hz</q1:SampleRate>
           <q1:FastSettle>false</q1:FastSettle>
-          <q1:LowerBandwidth>100</q1:LowerBandwidth>
+          <q1:LowerBandwidth>10</q1:LowerBandwidth>
           <q1:UpperBandwidth>7500</q1:UpperBandwidth>
           <q1:DspCutoffFrequency>1</q1:DspCutoffFrequency>
           <q1:DspEnabled>false</q1:DspEnabled>
@@ -47,7 +47,7 @@ def process(value):
             <Expression xsi:type="WorkflowOutput" />
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:TriggeredBuffer">
-                <q3:Count>600</q3:Count>
+                <q3:Count>750</q3:Count>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -56,18 +56,138 @@ def process(value):
             <Expression xsi:type="ExternalizedPropertyOfInt32TriggeredBuffer">
               <MemberName>Count</MemberName>
               <Name>Windowsamples</Name>
-              <Value>600</Value>
+              <Value>750</Value>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:Delay">
-                <q3:Count>30</q3:Count>
+                <q3:Count>90</q3:Count>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:Threshold">
-                <q3:ThresholdValue>5000</q3:ThresholdValue>
+                <q3:ThresholdValue>3000</q3:ThresholdValue>
                 <q3:MaxValue>1</q3:MaxValue>
                 <q3:ThresholdType>Binary</q3:ThresholdType>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:SelectChannels">
+                <q3:Channels>
+                  <q3:int>8</q3:int>
+                  <q3:int>9</q3:int>
+                  <q3:int>12</q3:int>
+                  <q3:int>13</q3:int>
+                </q3:Channels>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfInt32Delay">
+              <MemberName>Count</MemberName>
+              <Name>Presamples</Name>
+              <Value>90</Value>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:ConvertScale">
+                <q3:Depth>F32</q3:Depth>
+                <q3:Scale>1</q3:Scale>
+                <q3:Shift>-32768</q3:Shift>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfDoubleThreshold">
+              <MemberName>ThresholdValue</MemberName>
+              <Name>Threshold</Name>
+              <Value>3000</Value>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.AmplifierData</Selector>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfArrayOfInt32SelectChannels">
+              <MemberName>Channels</MemberName>
+              <Name>Channels</Name>
+              <Value>
+                <int>8</int>
+                <int>9</int>
+                <int>12</int>
+                <int>13</int>
+              </Value>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:SelectChannels">
+                <q3:Channels>
+                  <q3:int>2</q3:int>
+                </q3:Channels>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.BoardAdcData</Selector>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfArrayOfInt32SelectChannels">
+              <MemberName>Channels</MemberName>
+              <Name>TriggerChannel</Name>
+              <Value>
+                <int>2</int>
+              </Value>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:FrequencyFilter">
+                <q3:SamplingFrequency>30000</q3:SamplingFrequency>
+                <q3:Cutoff1>100</q3:Cutoff1>
+                <q3:Cutoff2>0</q3:Cutoff2>
+                <q3:KernelLength>60</q3:KernelLength>
+                <q3:FilterType>HighPass</q3:FilterType>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfDoubleFrequencyFilter">
+              <MemberName>SamplingFrequency</MemberName>
+              <Name>SamplingFrequency</Name>
+              <Value>30000</Value>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:Delay">
+                <q3:Count>90</q3:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:SelectChannels">
+                <q3:Channels>
+                  <q3:int>0</q3:int>
+                </q3:Channels>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:ConvertScale">
+                <q3:Depth>F32</q3:Depth>
+                <q3:Scale>1</q3:Scale>
+                <q3:Shift>-32768</q3:Shift>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:FrequencyFilter">
+                <q3:SamplingFrequency>30000</q3:SamplingFrequency>
+                <q3:Cutoff1>15000</q3:Cutoff1>
+                <q3:Cutoff2>0</q3:Cutoff2>
+                <q3:KernelLength>60</q3:KernelLength>
+                <q3:FilterType>LowPass</q3:FilterType>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:Delay">
+                <q3:Count>90</q3:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:TriggeredBuffer">
+                <q3:Count>750</q3:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:Concat">
+                <q3:Axis>0</q3:Axis>
               </Combinator>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -92,29 +212,9 @@ def process(value):
                 </q3:Channels>
               </Combinator>
             </Expression>
-            <Expression xsi:type="ExternalizedPropertyOfInt32Delay">
-              <MemberName>Count</MemberName>
-              <Name>Presamples</Name>
-              <Value>30</Value>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q3:ConvertScale">
-                <q3:Depth>F32</q3:Depth>
-                <q3:Scale>1</q3:Scale>
-                <q3:Shift>-32768</q3:Shift>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="ExternalizedPropertyOfDoubleThreshold">
-              <MemberName>ThresholdValue</MemberName>
-              <Name>Threshold</Name>
-              <Value>5000</Value>
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Source.AmplifierData</Selector>
-            </Expression>
             <Expression xsi:type="ExternalizedPropertyOfArrayOfInt32SelectChannels">
               <MemberName>Channels</MemberName>
-              <Name>Channels</Name>
+              <Name>Headstage Channels</Name>
               <Value>
                 <int>0</int>
                 <int>1</int>
@@ -133,37 +233,6 @@ def process(value):
                 <int>30</int>
                 <int>31</int>
               </Value>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q3:SelectChannels">
-                <q3:Channels>
-                  <q3:int>6</q3:int>
-                </q3:Channels>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>Source.BoardAdcData</Selector>
-            </Expression>
-            <Expression xsi:type="ExternalizedPropertyOfArrayOfInt32SelectChannels">
-              <MemberName>Channels</MemberName>
-              <Name>TriggerChannel</Name>
-              <Value>
-                <int>6</int>
-              </Value>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="q3:FrequencyFilter">
-                <q3:SamplingFrequency>30000</q3:SamplingFrequency>
-                <q3:Cutoff1>300</q3:Cutoff1>
-                <q3:Cutoff2>0</q3:Cutoff2>
-                <q3:KernelLength>60</q3:KernelLength>
-                <q3:FilterType>HighPass</q3:FilterType>
-              </Combinator>
-            </Expression>
-            <Expression xsi:type="ExternalizedPropertyOfDoubleFrequencyFilter">
-              <MemberName>SamplingFrequency</MemberName>
-              <Name>SamplingFrequency</Name>
-              <Value>30000</Value>
             </Expression>
           </Nodes>
           <Edges>
@@ -193,6 +262,11 @@ def process(value):
               <Label>Source2</Label>
             </Edge>
             <Edge>
+              <From>4</From>
+              <To>24</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
               <From>5</From>
               <To>3</To>
               <Label>Source1</Label>
@@ -203,6 +277,11 @@ def process(value):
               <Label>Source2</Label>
             </Edge>
             <Edge>
+              <From>6</From>
+              <To>23</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
               <From>7</From>
               <To>5</To>
               <Label>Source1</Label>
@@ -210,6 +289,16 @@ def process(value):
             <Edge>
               <From>8</From>
               <To>5</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>18</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>22</To>
               <Label>Source2</Label>
             </Edge>
             <Edge>
@@ -224,7 +313,7 @@ def process(value):
             </Edge>
             <Edge>
               <From>11</From>
-              <To>7</To>
+              <To>27</To>
               <Label>Source1</Label>
             </Edge>
             <Edge>
@@ -243,6 +332,11 @@ def process(value):
               <Label>Source1</Label>
             </Edge>
             <Edge>
+              <From>14</From>
+              <To>19</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
               <From>15</From>
               <To>13</To>
               <Label>Source2</Label>
@@ -253,8 +347,68 @@ def process(value):
               <Label>Source1</Label>
             </Edge>
             <Edge>
+              <From>16</From>
+              <To>18</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
               <From>17</From>
               <To>16</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>17</From>
+              <To>21</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>18</From>
+              <To>25</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>19</From>
+              <To>20</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>20</From>
+              <To>21</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>21</From>
+              <To>22</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>22</From>
+              <To>25</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>23</From>
+              <To>24</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>25</From>
+              <To>26</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>26</From>
+              <To>23</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>27</From>
+              <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>28</From>
+              <To>27</To>
               <Label>Source2</Label>
             </Edge>
           </Edges>
@@ -470,7 +624,7 @@ def process(value):
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="q4:CsvWriter">
-                    <q4:FileName>Z:\AW\mormyrid_data\20180612\pulses_</q4:FileName>
+                    <q4:FileName>Z:\AW\mormyrid_data\20180801\pulses_</q4:FileName>
                     <q4:Append>true</q4:Append>
                     <q4:Overwrite>true</q4:Overwrite>
                     <q4:Suffix>FileCount</q4:Suffix>
@@ -480,7 +634,7 @@ def process(value):
                   <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
                     <MemberName>FileName</MemberName>
                     <Name>FileName</Name>
-                    <Value>Z:\AW\mormyrid_data\20180612\pulses_</Value>
+                    <Value>Z:\AW\mormyrid_data\20180801\pulses_</Value>
                   </Expression>
                   <Expression xsi:type="ExternalizedPropertyOfArrayOfDoubleDetectSpikes">
                     <MemberName>Threshold</MemberName>
@@ -705,7 +859,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:MatrixWriter">
-                <q3:Path>Z:\AW\mormyrid_data\20180612\amp_</q3:Path>
+                <q3:Path>Z:\AW\mormyrid_data\20180801\amp_</q3:Path>
                 <q3:Suffix>FileCount</q3:Suffix>
                 <q3:Overwrite>false</q3:Overwrite>
                 <q3:Layout>RowMajor</q3:Layout>
@@ -726,22 +880,10 @@ def process(value):
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:SelectChannels">
                 <q3:Channels>
-                  <q3:int>0</q3:int>
-                  <q3:int>1</q3:int>
-                  <q3:int>2</q3:int>
-                  <q3:int>3</q3:int>
-                  <q3:int>4</q3:int>
-                  <q3:int>5</q3:int>
-                  <q3:int>6</q3:int>
-                  <q3:int>7</q3:int>
-                  <q3:int>24</q3:int>
-                  <q3:int>25</q3:int>
-                  <q3:int>26</q3:int>
-                  <q3:int>27</q3:int>
-                  <q3:int>28</q3:int>
-                  <q3:int>29</q3:int>
-                  <q3:int>30</q3:int>
-                  <q3:int>31</q3:int>
+                  <q3:int>8</q3:int>
+                  <q3:int>9</q3:int>
+                  <q3:int>12</q3:int>
+                  <q3:int>13</q3:int>
                 </q3:Channels>
               </Combinator>
             </Expression>
@@ -789,22 +931,10 @@ def process(value):
               <MemberName>Channels</MemberName>
               <Name>Channels</Name>
               <Value>
-                <int>0</int>
-                <int>1</int>
-                <int>2</int>
-                <int>3</int>
-                <int>4</int>
-                <int>5</int>
-                <int>6</int>
-                <int>7</int>
-                <int>24</int>
-                <int>25</int>
-                <int>26</int>
-                <int>27</int>
-                <int>28</int>
-                <int>29</int>
-                <int>30</int>
-                <int>31</int>
+                <int>8</int>
+                <int>9</int>
+                <int>12</int>
+                <int>13</int>
               </Value>
             </Expression>
           </Nodes>
@@ -876,22 +1006,10 @@ def process(value):
         <MemberName>Channels</MemberName>
         <Name>Channels</Name>
         <Value>
-          <int>0</int>
-          <int>1</int>
-          <int>2</int>
-          <int>3</int>
-          <int>4</int>
-          <int>5</int>
-          <int>6</int>
-          <int>7</int>
-          <int>24</int>
-          <int>25</int>
-          <int>26</int>
-          <int>27</int>
-          <int>28</int>
-          <int>29</int>
-          <int>30</int>
-          <int>31</int>
+          <int>8</int>
+          <int>9</int>
+          <int>12</int>
+          <int>13</int>
         </Value>
       </Expression>
       <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
@@ -914,7 +1032,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:MatrixWriter">
-                <q3:Path>Z:\AW\mormyrid_data\20180612\adc_</q3:Path>
+                <q3:Path>Z:\AW\mormyrid_data\20180801\adc_</q3:Path>
                 <q3:Suffix>FileCount</q3:Suffix>
                 <q3:Overwrite>false</q3:Overwrite>
                 <q3:Layout>RowMajor</q3:Layout>
@@ -935,7 +1053,8 @@ def process(value):
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:SelectChannels">
                 <q3:Channels>
-                  <q3:int>5</q3:int>
+                  <q3:int>1</q3:int>
+                  <q3:int>6</q3:int>
                 </q3:Channels>
               </Combinator>
             </Expression>
@@ -946,7 +1065,8 @@ def process(value):
               <MemberName>Channels</MemberName>
               <Name>Channels</Name>
               <Value>
-                <int>5</int>
+                <int>1</int>
+                <int>6</int>
               </Value>
             </Expression>
             <Expression xsi:type="Condition">
@@ -1055,7 +1175,8 @@ def process(value):
         <MemberName>Channels</MemberName>
         <Name>AdcChannels</Name>
         <Value>
-          <int>5</int>
+          <int>1</int>
+          <int>6</int>
         </Value>
       </Expression>
       <Expression xsi:type="Subtract" />
@@ -1187,6 +1308,7 @@ def process(value):
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Int32[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.SelectChannels, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Dsp.FrequencyFilter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.FrequencyFilter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Concat, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.IO.CsvWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.Concat, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.GreaterThanBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>

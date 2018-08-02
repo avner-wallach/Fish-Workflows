@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.3.0">
-  <Workflow xmlns:q8="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q1="clr-namespace:Bonsai.Ephys;assembly=Bonsai.Ephys" xmlns:q2="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:q3="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q4="clr-namespace:Bonsai.Audio;assembly=Bonsai.Audio" xmlns:q5="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q6="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q7="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns="https://horizongir.org/bonsai">
+  <Workflow xmlns:q8="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns:q2="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q3="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q7="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q5="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q4="clr-namespace:Bonsai.Audio;assembly=Bonsai.Audio" xmlns:q6="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q1="clr-namespace:Bonsai.Ephys;assembly=Bonsai.Ephys" xmlns="https://horizongir.org/bonsai">
     <Nodes>
       <Expression xsi:type="ReplaySubject">
         <Name>DataPath</Name>
@@ -9,12 +9,12 @@
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:Rhd2000EvalBoard">
           <q1:BitFileName>rhd2000_usb3.bit</q1:BitFileName>
-          <q1:SampleRate>SampleRate10000Hz</q1:SampleRate>
+          <q1:SampleRate>SampleRate30000Hz</q1:SampleRate>
           <q1:FastSettle>false</q1:FastSettle>
-          <q1:LowerBandwidth>0.1</q1:LowerBandwidth>
+          <q1:LowerBandwidth>1</q1:LowerBandwidth>
           <q1:UpperBandwidth>7500</q1:UpperBandwidth>
-          <q1:DspCutoffFrequency>100</q1:DspCutoffFrequency>
-          <q1:DspEnabled>true</q1:DspEnabled>
+          <q1:DspCutoffFrequency>1</q1:DspCutoffFrequency>
+          <q1:DspEnabled>false</q1:DspEnabled>
           <q1:CableDelayA xsi:nil="true" />
           <q1:CableDelayB xsi:nil="true" />
           <q1:CableDelayC xsi:nil="true" />
@@ -70,18 +70,6 @@
                         <q2:int>1</q2:int>
                         <q2:int>2</q2:int>
                         <q2:int>3</q2:int>
-                        <q2:int>4</q2:int>
-                        <q2:int>5</q2:int>
-                        <q2:int>6</q2:int>
-                        <q2:int>7</q2:int>
-                        <q2:int>24</q2:int>
-                        <q2:int>25</q2:int>
-                        <q2:int>26</q2:int>
-                        <q2:int>27</q2:int>
-                        <q2:int>28</q2:int>
-                        <q2:int>29</q2:int>
-                        <q2:int>30</q2:int>
-                        <q2:int>31</q2:int>
                       </q2:Channels>
                     </Combinator>
                   </Expression>
@@ -113,18 +101,6 @@
                       <int>1</int>
                       <int>2</int>
                       <int>3</int>
-                      <int>4</int>
-                      <int>5</int>
-                      <int>6</int>
-                      <int>7</int>
-                      <int>24</int>
-                      <int>25</int>
-                      <int>26</int>
-                      <int>27</int>
-                      <int>28</int>
-                      <int>29</int>
-                      <int>30</int>
-                      <int>31</int>
                     </Value>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -142,6 +118,50 @@
                     <Name>TriggerChannel</Name>
                     <Value>
                       <int>0</int>
+                    </Value>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q2:SelectChannels">
+                      <q2:Channels>
+                        <q2:int>0</q2:int>
+                        <q2:int>1</q2:int>
+                        <q2:int>2</q2:int>
+                        <q2:int>3</q2:int>
+                        <q2:int>4</q2:int>
+                        <q2:int>5</q2:int>
+                        <q2:int>6</q2:int>
+                        <q2:int>7</q2:int>
+                        <q2:int>24</q2:int>
+                        <q2:int>25</q2:int>
+                        <q2:int>26</q2:int>
+                        <q2:int>27</q2:int>
+                        <q2:int>28</q2:int>
+                        <q2:int>29</q2:int>
+                        <q2:int>30</q2:int>
+                        <q2:int>31</q2:int>
+                      </q2:Channels>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfArrayOfInt32SelectChannels">
+                    <MemberName>Channels</MemberName>
+                    <Name>Headstage Channels</Name>
+                    <Value>
+                      <int>0</int>
+                      <int>1</int>
+                      <int>2</int>
+                      <int>3</int>
+                      <int>4</int>
+                      <int>5</int>
+                      <int>6</int>
+                      <int>7</int>
+                      <int>24</int>
+                      <int>25</int>
+                      <int>26</int>
+                      <int>27</int>
+                      <int>28</int>
+                      <int>29</int>
+                      <int>30</int>
+                      <int>31</int>
                     </Value>
                   </Expression>
                 </Nodes>
@@ -203,7 +223,7 @@
                   </Edge>
                   <Edge>
                     <From>11</From>
-                    <To>7</To>
+                    <To>16</To>
                     <Label>Source1</Label>
                   </Edge>
                   <Edge>
@@ -226,6 +246,16 @@
                     <To>13</To>
                     <Label>Source2</Label>
                   </Edge>
+                  <Edge>
+                    <From>16</From>
+                    <To>7</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>17</From>
+                    <To>16</To>
+                    <Label>Source2</Label>
+                  </Edge>
                 </Edges>
               </Workflow>
             </Expression>
@@ -244,7 +274,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q2:MatrixWriter">
-                      <q2:Path>Z:\AW\mormyrid_data\20180618\adc_</q2:Path>
+                      <q2:Path>Z:\AW\mormyrid_data\20180731\adc_</q2:Path>
                       <q2:Suffix>FileCount</q2:Suffix>
                       <q2:Overwrite>false</q2:Overwrite>
                       <q2:Layout>RowMajor</q2:Layout>
@@ -292,13 +322,13 @@
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="BooleanProperty">
-                            <Value>false</Value>
+                            <Value>true</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Value</MemberName>
                           <Name>Save</Name>
-                          <Value>false</Value>
+                          <Value>true</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -318,7 +348,7 @@
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>false</Value>
+                    <Value>true</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -395,7 +425,7 @@
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q3:TextWriter">
-                      <q3:FileName>Z:\AW\mormyrid_data\20180618\ephysTS_</q3:FileName>
+                      <q3:FileName>Z:\AW\mormyrid_data\20180731\ephysTS_</q3:FileName>
                       <q3:Suffix>FileCount</q3:Suffix>
                       <q3:Buffered>true</q3:Buffered>
                       <q3:Overwrite>false</q3:Overwrite>
@@ -434,13 +464,13 @@
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="BooleanProperty">
-                            <Value>false</Value>
+                            <Value>true</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Value</MemberName>
                           <Name>Save</Name>
-                          <Value>false</Value>
+                          <Value>true</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -460,7 +490,7 @@
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>false</Value>
+                    <Value>true</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -537,7 +567,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q2:MatrixWriter">
-                      <q2:Path>Z:\AW\mormyrid_data\20180618\amp_</q2:Path>
+                      <q2:Path>Z:\AW\mormyrid_data\20180731\amp_</q2:Path>
                       <q2:Suffix>FileCount</q2:Suffix>
                       <q2:Overwrite>false</q2:Overwrite>
                       <q2:Layout>RowMajor</q2:Layout>
@@ -562,18 +592,6 @@
                         <q2:int>1</q2:int>
                         <q2:int>2</q2:int>
                         <q2:int>3</q2:int>
-                        <q2:int>4</q2:int>
-                        <q2:int>5</q2:int>
-                        <q2:int>6</q2:int>
-                        <q2:int>7</q2:int>
-                        <q2:int>24</q2:int>
-                        <q2:int>25</q2:int>
-                        <q2:int>26</q2:int>
-                        <q2:int>27</q2:int>
-                        <q2:int>28</q2:int>
-                        <q2:int>29</q2:int>
-                        <q2:int>30</q2:int>
-                        <q2:int>31</q2:int>
                       </q2:Channels>
                     </Combinator>
                   </Expression>
@@ -588,18 +606,6 @@
                       <int>1</int>
                       <int>2</int>
                       <int>3</int>
-                      <int>4</int>
-                      <int>5</int>
-                      <int>6</int>
-                      <int>7</int>
-                      <int>24</int>
-                      <int>25</int>
-                      <int>26</int>
-                      <int>27</int>
-                      <int>28</int>
-                      <int>29</int>
-                      <int>30</int>
-                      <int>31</int>
                     </Value>
                   </Expression>
                   <Expression xsi:type="Condition">
@@ -611,13 +617,13 @@
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="BooleanProperty">
-                            <Value>false</Value>
+                            <Value>true</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Value</MemberName>
                           <Name>Save</Name>
-                          <Value>false</Value>
+                          <Value>true</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -637,7 +643,51 @@
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>false</Value>
+                    <Value>true</Value>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q2:SelectChannels">
+                      <q2:Channels>
+                        <q2:int>0</q2:int>
+                        <q2:int>1</q2:int>
+                        <q2:int>2</q2:int>
+                        <q2:int>3</q2:int>
+                        <q2:int>4</q2:int>
+                        <q2:int>5</q2:int>
+                        <q2:int>6</q2:int>
+                        <q2:int>7</q2:int>
+                        <q2:int>24</q2:int>
+                        <q2:int>25</q2:int>
+                        <q2:int>26</q2:int>
+                        <q2:int>27</q2:int>
+                        <q2:int>28</q2:int>
+                        <q2:int>29</q2:int>
+                        <q2:int>30</q2:int>
+                        <q2:int>31</q2:int>
+                      </q2:Channels>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfArrayOfInt32SelectChannels">
+                    <MemberName>Channels</MemberName>
+                    <Name>Headstage Channels</Name>
+                    <Value>
+                      <int>0</int>
+                      <int>1</int>
+                      <int>2</int>
+                      <int>3</int>
+                      <int>4</int>
+                      <int>5</int>
+                      <int>6</int>
+                      <int>7</int>
+                      <int>24</int>
+                      <int>25</int>
+                      <int>26</int>
+                      <int>27</int>
+                      <int>28</int>
+                      <int>29</int>
+                      <int>30</int>
+                      <int>31</int>
+                    </Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -683,13 +733,13 @@
                   </Edge>
                   <Edge>
                     <From>9</From>
-                    <To>8</To>
-                    <Label>Source1</Label>
+                    <To>13</To>
+                    <Label>Source2</Label>
                   </Edge>
                   <Edge>
                     <From>10</From>
                     <To>8</To>
-                    <Label>Source2</Label>
+                    <Label>Source1</Label>
                   </Edge>
                   <Edge>
                     <From>11</From>
@@ -699,6 +749,16 @@
                   <Edge>
                     <From>12</From>
                     <To>11</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>13</From>
+                    <To>8</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>14</From>
+                    <To>13</To>
                     <Label>Source2</Label>
                   </Edge>
                 </Edges>
@@ -719,7 +779,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q2:MatrixWriter">
-                      <q2:Path>Z:\AW\mormyrid_data\20180618\aux_</q2:Path>
+                      <q2:Path>Z:\AW\mormyrid_data\20180731\aux_</q2:Path>
                       <q2:Suffix>FileCount</q2:Suffix>
                       <q2:Overwrite>false</q2:Overwrite>
                       <q2:Layout>RowMajor</q2:Layout>
@@ -758,13 +818,13 @@
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="BooleanProperty">
-                            <Value>false</Value>
+                            <Value>true</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Value</MemberName>
                           <Name>Save</Name>
-                          <Value>false</Value>
+                          <Value>true</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -784,7 +844,7 @@
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>false</Value>
+                    <Value>true</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -857,24 +917,12 @@
                 <int>1</int>
                 <int>2</int>
                 <int>3</int>
-                <int>4</int>
-                <int>5</int>
-                <int>6</int>
-                <int>7</int>
-                <int>24</int>
-                <int>25</int>
-                <int>26</int>
-                <int>27</int>
-                <int>28</int>
-                <int>29</int>
-                <int>30</int>
-                <int>31</int>
               </Value>
             </Expression>
             <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
               <MemberName>Save</MemberName>
               <Name>Save</Name>
-              <Value>false</Value>
+              <Value>true</Value>
             </Expression>
             <Expression xsi:type="NestedWorkflow">
               <Name>SavePulses</Name>
@@ -1098,7 +1146,7 @@
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="q3:CsvWriter">
-                          <q3:FileName>Z:\AW\mormyrid_data\20180618\pulses_</q3:FileName>
+                          <q3:FileName>Z:\AW\mormyrid_data\20180731\pulses_</q3:FileName>
                           <q3:Append>true</q3:Append>
                           <q3:Overwrite>true</q3:Overwrite>
                           <q3:Suffix>FileCount</q3:Suffix>
@@ -1108,7 +1156,7 @@
                         <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
                           <MemberName>FileName</MemberName>
                           <Name>FileName</Name>
-                          <Value>Z:\AW\mormyrid_data\20180618\pulses_</Value>
+                          <Value>Z:\AW\mormyrid_data\20180731\pulses_</Value>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfArrayOfDoubleDetectSpikes">
                           <MemberName>Threshold</MemberName>
@@ -1135,13 +1183,13 @@
                               <Expression xsi:type="WorkflowOutput" />
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="BooleanProperty">
-                                  <Value>false</Value>
+                                  <Value>true</Value>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                                 <MemberName>Value</MemberName>
                                 <Name>Save</Name>
-                                <Value>false</Value>
+                                <Value>true</Value>
                               </Expression>
                             </Nodes>
                             <Edges>
@@ -1161,7 +1209,7 @@
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Save</MemberName>
                           <Name>Save</Name>
-                          <Value>false</Value>
+                          <Value>true</Value>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q2:SelectChannels">
@@ -1484,7 +1532,7 @@
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>false</Value>
+                    <Value>true</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1591,7 +1639,7 @@
             <Edge>
               <From>6</From>
               <To>3</To>
-              <Label>Source2</Label>
+              <Label>Source3</Label>
             </Edge>
             <Edge>
               <From>7</From>
@@ -1601,7 +1649,7 @@
             <Edge>
               <From>7</From>
               <To>3</To>
-              <Label>Source3</Label>
+              <Label>Source2</Label>
             </Edge>
             <Edge>
               <From>7</From>
@@ -1641,7 +1689,7 @@
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="q3:CsvWriter">
-                    <q3:FileName>Z:\AW\mormyrid_data\20180618\tracking_</q3:FileName>
+                    <q3:FileName>Z:\AW\mormyrid_data\20180731\tracking_</q3:FileName>
                     <q3:Append>false</q3:Append>
                     <q3:Overwrite>false</q3:Overwrite>
                     <q3:Suffix>FileCount</q3:Suffix>
@@ -1718,7 +1766,7 @@
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="q3:CsvWriter">
-                    <q3:FileName>Z:\AW\mormyrid_data\20180618\videoTS_</q3:FileName>
+                    <q3:FileName>Z:\AW\mormyrid_data\20180731\videoTS_</q3:FileName>
                     <q3:Append>false</q3:Append>
                     <q3:Overwrite>false</q3:Overwrite>
                     <q3:Suffix>FileCount</q3:Suffix>
@@ -1769,13 +1817,13 @@
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="BooleanProperty">
-                            <Value>false</Value>
+                            <Value>true</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Value</MemberName>
                           <Name>Save</Name>
-                          <Value>false</Value>
+                          <Value>true</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -1795,7 +1843,7 @@
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>false</Value>
+                    <Value>true</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1897,7 +1945,7 @@
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q3:TextWriter">
-                      <q3:FileName>Z:\AW\mormyrid_data\20180618\video_syncTS</q3:FileName>
+                      <q3:FileName>Z:\AW\mormyrid_data\20180731\video_syncTS</q3:FileName>
                       <q3:Suffix>FileCount</q3:Suffix>
                       <q3:Buffered>true</q3:Buffered>
                       <q3:Overwrite>false</q3:Overwrite>
@@ -2062,13 +2110,13 @@
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="BooleanProperty">
-                            <Value>false</Value>
+                            <Value>true</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Value</MemberName>
                           <Name>Save</Name>
-                          <Value>false</Value>
+                          <Value>true</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -2088,7 +2136,7 @@
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>false</Value>
+                    <Value>true</Value>
                   </Expression>
                   <Expression xsi:type="ExternalizedPropertyOfDoubleRoiActivityDetected">
                     <MemberName>Threshold</MemberName>
@@ -2299,7 +2347,7 @@ def process(value):
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="q3:SerialStringWrite">
-                            <q3:PortName>COM4</q3:PortName>
+                            <q3:PortName>COM7</q3:PortName>
                             <q3:NewLine>\r\n</q3:NewLine>
                           </Combinator>
                         </Expression>
@@ -2706,7 +2754,7 @@ def process(value):
             <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
               <MemberName>Save</MemberName>
               <Name>Save</Name>
-              <Value>false</Value>
+              <Value>true</Value>
             </Expression>
             <Expression xsi:type="Condition">
               <Workflow>
@@ -2717,13 +2765,13 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="BooleanProperty">
-                      <Value>false</Value>
+                      <Value>true</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Value</MemberName>
                     <Name>Save</Name>
-                    <Value>false</Value>
+                    <Value>true</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -2936,6 +2984,107 @@ def process(value):
 
   return path</q6:Script>
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:SerialStringWrite">
+          <q3:PortName>COM4</q3:PortName>
+          <q3:NewLine>\r\n</q3:NewLine>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+        <MemberName>Save</MemberName>
+        <Name>SaveEphys</Name>
+        <Value>true</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q7:KeyDown">
+          <q7:Filter>None</q7:Filter>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+        <MemberName>PortName</MemberName>
+        <Name>PortName</Name>
+        <Value>COM4</Value>
+      </Expression>
+      <Expression xsi:type="SelectMany">
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="StringProperty">
+                <Value>B</Value>
+              </Combinator>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>1</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+        <MemberName>Save</MemberName>
+        <Name>SaveVideo</Name>
+        <Value>true</Value>
+      </Expression>
+      <Expression xsi:type="Condition">
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="Equal">
+              <Operand xsi:type="WorkflowPropertyOfInt64">
+                <Value>0</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="Mod">
+              <Operand xsi:type="WorkflowPropertyOfInt64">
+                <Value>3</Value>
+              </Operand>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="TimeSpanWindow">
+          <TimeSpan>PT30M</TimeSpan>
+          <TimeShift>PT30M</TimeShift>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q8:FlyCapture">
+          <q8:Index>0</q8:Index>
+          <q8:ColorFormat>Bgr</q8:ColorFormat>
+          <q8:ColorProcessing>Default</q8:ColorProcessing>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Timer">
+          <DueTime>PT0S</DueTime>
+          <Period>PT1S</Period>
+        </Combinator>
+      </Expression>
       <Expression xsi:type="Condition">
         <Workflow>
           <Nodes>
@@ -3037,107 +3186,6 @@ def process(value):
           </Edges>
         </Workflow>
       </Expression>
-      <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
-        <MemberName>Save</MemberName>
-        <Name>SaveEphys</Name>
-        <Value>false</Value>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q3:SerialStringWrite">
-          <q3:PortName>COM4</q3:PortName>
-          <q3:NewLine>\r\n</q3:NewLine>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
-        <MemberName>PortName</MemberName>
-        <Name>PortName</Name>
-        <Value>COM4</Value>
-      </Expression>
-      <Expression xsi:type="SelectMany">
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="WorkflowOutput" />
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="StringProperty">
-                <Value>B</Value>
-              </Combinator>
-            </Expression>
-          </Nodes>
-          <Edges>
-            <Edge>
-              <From>1</From>
-              <To>0</To>
-              <Label>Source1</Label>
-            </Edge>
-          </Edges>
-        </Workflow>
-      </Expression>
-      <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
-        <MemberName>Save</MemberName>
-        <Name>SaveVideo</Name>
-        <Value>false</Value>
-      </Expression>
-      <Expression xsi:type="Condition">
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="WorkflowInput">
-              <Name>Source1</Name>
-            </Expression>
-            <Expression xsi:type="WorkflowOutput" />
-            <Expression xsi:type="Equal">
-              <Operand xsi:type="WorkflowPropertyOfInt64">
-                <Value>0</Value>
-              </Operand>
-            </Expression>
-            <Expression xsi:type="Mod">
-              <Operand xsi:type="WorkflowPropertyOfInt64">
-                <Value>3</Value>
-              </Operand>
-            </Expression>
-          </Nodes>
-          <Edges>
-            <Edge>
-              <From>0</From>
-              <To>3</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>2</From>
-              <To>1</To>
-              <Label>Source1</Label>
-            </Edge>
-            <Edge>
-              <From>3</From>
-              <To>2</To>
-              <Label>Source1</Label>
-            </Edge>
-          </Edges>
-        </Workflow>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="TimeSpanWindow">
-          <TimeSpan>PT30M</TimeSpan>
-          <TimeShift>PT30M</TimeShift>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q7:FlyCapture">
-          <q7:Index>0</q7:Index>
-          <q7:ColorFormat>Bgr</q7:ColorFormat>
-          <q7:ColorProcessing>Default</q7:ColorProcessing>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="q8:KeyDown">
-          <q8:Filter>None</q8:Filter>
-        </Combinator>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="Timer">
-          <DueTime>PT0S</DueTime>
-          <Period>PT1S</Period>
-        </Combinator>
-      </Expression>
       <Expression xsi:type="SelectMany">
         <Name>ArduinoCommand</Name>
         <Workflow>
@@ -3145,7 +3193,7 @@ def process(value):
             <Expression xsi:type="WorkflowOutput" />
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:SerialStringWrite">
-                <q3:PortName>COM4</q3:PortName>
+                <q3:PortName>COM7</q3:PortName>
                 <q3:NewLine>\r\n</q3:NewLine>
               </Combinator>
             </Expression>
@@ -3200,18 +3248,23 @@ def process(value):
         <Label>Source1</Label>
       </Edge>
       <Edge>
-        <From>7</From>
-        <To>18</To>
-        <Label>Source2</Label>
-      </Edge>
-      <Edge>
         <From>8</From>
         <To>3</To>
         <Label>Source2</Label>
       </Edge>
       <Edge>
+        <From>9</From>
+        <To>17</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
         <From>10</From>
-        <To>9</To>
+        <To>7</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>10</From>
+        <To>18</To>
         <Label>Source2</Label>
       </Edge>
       <Edge>
@@ -3220,14 +3273,9 @@ def process(value):
         <Label>Source3</Label>
       </Edge>
       <Edge>
-        <From>10</From>
-        <To>18</To>
-        <Label>Source2</Label>
-      </Edge>
-      <Edge>
         <From>11</From>
-        <To>9</To>
-        <Label>Source1</Label>
+        <To>7</To>
+        <Label>Source2</Label>
       </Edge>
       <Edge>
         <From>12</From>
@@ -3251,13 +3299,13 @@ def process(value):
       </Edge>
       <Edge>
         <From>16</From>
-        <To>7</To>
+        <To>13</To>
         <Label>Source1</Label>
       </Edge>
       <Edge>
         <From>17</From>
-        <To>13</To>
-        <Label>Source1</Label>
+        <To>18</To>
+        <Label>Source2</Label>
       </Edge>
     </Edges>
   </Workflow>
@@ -3327,12 +3375,12 @@ def process(value):
     <Type>Bonsai.Reactive.Timer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Reactive.TimeSpanWindow, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.WorkflowProperty`1[[System.Windows.Forms.Keys, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Windows.Forms.Keys, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.EqualBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Expressions.BitwiseOrBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Windows.Input.KeyDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.WorkflowProperty`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.Expressions.ModBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
     <Type>Bonsai.PointGrey.FlyCapture, Bonsai.PointGrey, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
-    <Type>Bonsai.Windows.Input.KeyDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.WorkflowProperty`1[[System.Windows.Forms.Keys, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Windows.Forms.Keys, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.EqualBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.BitwiseOrBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
   </ExtensionTypes>
 </WorkflowBuilder>
