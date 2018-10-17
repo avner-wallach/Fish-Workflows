@@ -7,7 +7,7 @@
           <q1:BitFileName>rhd2000_usb3.bit</q1:BitFileName>
           <q1:SampleRate>SampleRate30000Hz</q1:SampleRate>
           <q1:FastSettle>false</q1:FastSettle>
-          <q1:LowerBandwidth>10</q1:LowerBandwidth>
+          <q1:LowerBandwidth>1</q1:LowerBandwidth>
           <q1:UpperBandwidth>7500</q1:UpperBandwidth>
           <q1:DspCutoffFrequency>1</q1:DspCutoffFrequency>
           <q1:DspEnabled>false</q1:DspEnabled>
@@ -65,7 +65,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:Threshold">
-                <q3:ThresholdValue>100</q3:ThresholdValue>
+                <q3:ThresholdValue>5000</q3:ThresholdValue>
                 <q3:MaxValue>1</q3:MaxValue>
                 <q3:ThresholdType>Binary</q3:ThresholdType>
               </Combinator>
@@ -73,8 +73,6 @@ def process(value):
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:SelectChannels">
                 <q3:Channels>
-                  <q3:int>0</q3:int>
-                  <q3:int>1</q3:int>
                   <q3:int>2</q3:int>
                   <q3:int>3</q3:int>
                   <q3:int>4</q3:int>
@@ -83,10 +81,10 @@ def process(value):
                   <q3:int>7</q3:int>
                   <q3:int>8</q3:int>
                   <q3:int>9</q3:int>
-                  <q3:int>10</q3:int>
                   <q3:int>11</q3:int>
                   <q3:int>12</q3:int>
-                  <q3:int>13</q3:int>
+                  <q3:int>14</q3:int>
+                  <q3:int>15</q3:int>
                 </q3:Channels>
               </Combinator>
             </Expression>
@@ -98,14 +96,14 @@ def process(value):
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:ConvertScale">
                 <q3:Depth>F32</q3:Depth>
-                <q3:Scale>-1</q3:Scale>
+                <q3:Scale>1</q3:Scale>
                 <q3:Shift>-32768</q3:Shift>
               </Combinator>
             </Expression>
             <Expression xsi:type="ExternalizedPropertyOfDoubleThreshold">
               <MemberName>ThresholdValue</MemberName>
               <Name>Threshold</Name>
-              <Value>100</Value>
+              <Value>5000</Value>
             </Expression>
             <Expression xsi:type="MemberSelector">
               <Selector>Source.AmplifierData</Selector>
@@ -114,8 +112,6 @@ def process(value):
               <MemberName>Channels</MemberName>
               <Name>Channels</Name>
               <Value>
-                <int>0</int>
-                <int>1</int>
                 <int>2</int>
                 <int>3</int>
                 <int>4</int>
@@ -124,10 +120,10 @@ def process(value):
                 <int>7</int>
                 <int>8</int>
                 <int>9</int>
-                <int>10</int>
                 <int>11</int>
                 <int>12</int>
-                <int>13</int>
+                <int>14</int>
+                <int>15</int>
               </Value>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -567,7 +563,7 @@ def process(value):
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Save</MemberName>
                     <Name>Save</Name>
-                    <Value>false</Value>
+                    <Value>true</Value>
                   </Expression>
                   <Expression xsi:type="Condition">
                     <Workflow>
@@ -578,13 +574,13 @@ def process(value):
                         <Expression xsi:type="WorkflowOutput" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="BooleanProperty">
-                            <Value>false</Value>
+                            <Value>true</Value>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                           <MemberName>Value</MemberName>
                           <Name>Save</Name>
-                          <Value>false</Value>
+                          <Value>true</Value>
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -654,7 +650,7 @@ def process(value):
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="q4:CsvWriter">
-                    <q4:FileName>Z:\AW\mormyrid_data\20180902\surgery_pulses_</q4:FileName>
+                    <q4:FileName>Z:\AW\mormyrid_data\20180924\surgery_pulses_</q4:FileName>
                     <q4:Append>true</q4:Append>
                     <q4:Overwrite>true</q4:Overwrite>
                     <q4:Suffix>FileCount</q4:Suffix>
@@ -664,7 +660,7 @@ def process(value):
                   <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
                     <MemberName>FileName</MemberName>
                     <Name>FileName</Name>
-                    <Value>Z:\AW\mormyrid_data\20180902\surgery_pulses_</Value>
+                    <Value>Z:\AW\mormyrid_data\20180924\surgery_pulses_</Value>
                   </Expression>
                   <Expression xsi:type="ExternalizedPropertyOfArrayOfDoubleDetectSpikes">
                     <MemberName>Threshold</MemberName>
@@ -822,7 +818,7 @@ def process(value):
             <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
               <MemberName>Save</MemberName>
               <Name>Save</Name>
-              <Value>false</Value>
+              <Value>true</Value>
             </Expression>
             <Expression xsi:type="ExternalizedPropertyOfArrayOfDoubleDetectSpikes">
               <MemberName>Threshold</MemberName>
@@ -913,7 +909,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:MatrixWriter">
-                <q3:Path>Z:\AW\mormyrid_data\20180902\surgery_amp_</q3:Path>
+                <q3:Path>Z:\AW\mormyrid_data\20180924\surgery_amp_</q3:Path>
                 <q3:Suffix>FileCount</q3:Suffix>
                 <q3:Overwrite>false</q3:Overwrite>
                 <q3:Layout>RowMajor</q3:Layout>
@@ -934,8 +930,6 @@ def process(value):
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:SelectChannels">
                 <q3:Channels>
-                  <q3:int>0</q3:int>
-                  <q3:int>1</q3:int>
                   <q3:int>2</q3:int>
                   <q3:int>3</q3:int>
                   <q3:int>4</q3:int>
@@ -944,10 +938,10 @@ def process(value):
                   <q3:int>7</q3:int>
                   <q3:int>8</q3:int>
                   <q3:int>9</q3:int>
-                  <q3:int>10</q3:int>
                   <q3:int>11</q3:int>
                   <q3:int>12</q3:int>
-                  <q3:int>13</q3:int>
+                  <q3:int>14</q3:int>
+                  <q3:int>15</q3:int>
                 </q3:Channels>
               </Combinator>
             </Expression>
@@ -963,13 +957,13 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="BooleanProperty">
-                      <Value>false</Value>
+                      <Value>true</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Value</MemberName>
                     <Name>Save</Name>
-                    <Value>false</Value>
+                    <Value>true</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -989,14 +983,12 @@ def process(value):
             <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
               <MemberName>Save</MemberName>
               <Name>Save</Name>
-              <Value>false</Value>
+              <Value>true</Value>
             </Expression>
             <Expression xsi:type="ExternalizedPropertyOfArrayOfInt32SelectChannels">
               <MemberName>Channels</MemberName>
               <Name>Channels</Name>
               <Value>
-                <int>0</int>
-                <int>1</int>
                 <int>2</int>
                 <int>3</int>
                 <int>4</int>
@@ -1005,10 +997,10 @@ def process(value):
                 <int>7</int>
                 <int>8</int>
                 <int>9</int>
-                <int>10</int>
                 <int>11</int>
                 <int>12</int>
-                <int>13</int>
+                <int>14</int>
+                <int>15</int>
               </Value>
             </Expression>
             <Expression xsi:type="Combinator">
@@ -1134,8 +1126,6 @@ def process(value):
         <MemberName>Channels</MemberName>
         <Name>Channels</Name>
         <Value>
-          <int>0</int>
-          <int>1</int>
           <int>2</int>
           <int>3</int>
           <int>4</int>
@@ -1144,16 +1134,16 @@ def process(value):
           <int>7</int>
           <int>8</int>
           <int>9</int>
-          <int>10</int>
           <int>11</int>
           <int>12</int>
-          <int>13</int>
+          <int>14</int>
+          <int>15</int>
         </Value>
       </Expression>
       <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
         <MemberName>Save</MemberName>
         <Name>Save</Name>
-        <Value>false</Value>
+        <Value>true</Value>
       </Expression>
       <Expression xsi:type="NestedWorkflow">
         <Name>SaveAdc</Name>
@@ -1170,7 +1160,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:MatrixWriter">
-                <q3:Path>Z:\AW\mormyrid_data\20180902\surgery_adc_</q3:Path>
+                <q3:Path>Z:\AW\mormyrid_data\20180924\surgery_adc_</q3:Path>
                 <q3:Suffix>FileCount</q3:Suffix>
                 <q3:Overwrite>false</q3:Overwrite>
                 <q3:Layout>RowMajor</q3:Layout>
@@ -1214,13 +1204,13 @@ def process(value):
                   <Expression xsi:type="WorkflowOutput" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="BooleanProperty">
-                      <Value>false</Value>
+                      <Value>true</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
                     <MemberName>Value</MemberName>
                     <Name>Save</Name>
-                    <Value>false</Value>
+                    <Value>true</Value>
                   </Expression>
                 </Nodes>
                 <Edges>
@@ -1240,7 +1230,7 @@ def process(value):
             <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
               <MemberName>Save</MemberName>
               <Name>Save</Name>
-              <Value>false</Value>
+              <Value>true</Value>
             </Expression>
           </Nodes>
           <Edges>
