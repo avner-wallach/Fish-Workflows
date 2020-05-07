@@ -6,16 +6,17 @@
 
 // defines pins numbers
 const int LEDPin = 13;
-const int AUXPin = 12; //auxilliary output- currently unused
+const int AUXPin = 12; //auxilliary output- daylight control
 const int MLeftPin = 10; // left and right commands from master
 const int MRightPin = 11;
-const int Trig1Pin = 9;
-const int Trig2Pin = 8;
+const int Trig1Pin = 9; //dynamic object control
+const int Trig2Pin = 8; //
 int serbuff = 0;
 
 void setup() {
   // Sets pin direction
   pinMode(LEDPin,OUTPUT);
+  pinMode(AUXPin,OUTPUT);
   pinMode(MLeftPin,OUTPUT);
   pinMode(MRightPin,OUTPUT);
   pinMode(Trig1Pin,OUTPUT);
@@ -23,12 +24,13 @@ void setup() {
 
  //LED off
   digitalWrite(LEDPin,LOW);
+  digitalWrite(AUXPin,LOW); // LOW = lights off
   digitalWrite(MLeftPin,LOW);
   digitalWrite(MRightPin,LOW);
 
   //resting position of object is DOWN
   digitalWrite(Trig1Pin,LOW);
-  digitalWrite(Trig2Pin,LOW);
+  digitalWrite(Trig2Pin,LOW); 
 
   // serial
   Serial.begin(9600);     // opens serial port, sets data rate to 9600 bps
@@ -62,13 +64,21 @@ void loop() {
           //back 
           digitalWrite(Trig1Pin,LOW);
           break;
-        case 'G':
+/*        case 'G':
           //trigger relay2
           digitalWrite(Trig2Pin,HIGH);
           delay(250);  //wait 0.25 sec
           //back 
           digitalWrite(Trig2Pin,LOW);
+          break;*/
+        case 'D':
+          //daylight on
+          digitalWrite(AUXPin,HIGH);
           break;
+        case 'N':
+          //daylight off
+          digitalWrite(AUXPin,LOW);
+          break;          
       }
         
   }

@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.3.0">
+  <Workflow xmlns:q1="clr-namespace:Bonsai.Ephys;assembly=Bonsai.Ephys" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q2="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns="https://horizongir.org/bonsai">
+    <Nodes>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Rhd2000EvalBoard">
+          <q1:BitFileName>Z:\GitHub\Fish-Workflows\Bonsai\rhd2000_usb3.bit</q1:BitFileName>
+          <q1:SampleRate>SampleRate30000Hz</q1:SampleRate>
+          <q1:ExternalFastSettleEnabled>true</q1:ExternalFastSettleEnabled>
+          <q1:LowerBandwidth>0.1</q1:LowerBandwidth>
+          <q1:UpperBandwidth>7500</q1:UpperBandwidth>
+          <q1:DspCutoffFrequency>1</q1:DspCutoffFrequency>
+          <q1:DspEnabled>false</q1:DspEnabled>
+          <q1:CableDelayA xsi:nil="true" />
+          <q1:CableDelayB xsi:nil="true" />
+          <q1:CableDelayC xsi:nil="true" />
+          <q1:CableDelayD xsi:nil="true" />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.AmplifierData</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.AuxiliaryData</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.BoardAdcData</Selector>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.TtlIn</Selector>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:AdcScale">
+          <q1:AdcType>Electrode</q1:AdcType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:AdcScale">
+          <q1:AdcType>AuxiliaryInput</q1:AdcType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:AdcScale">
+          <q1:AdcType>BoardAdc</q1:AdcType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:SelectChannels">
+          <q2:Channels>
+            <q2:int>0</q2:int>
+          </q2:Channels>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:SelectChannels">
+          <q2:Channels>
+            <q2:int>0</q2:int>
+          </q2:Channels>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:TriggeredBuffer">
+          <q2:Count>600</q2:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:Threshold">
+          <q2:ThresholdValue>0.5</q2:ThresholdValue>
+          <q2:MaxValue>1</q2:MaxValue>
+          <q2:ThresholdType>Binary</q2:ThresholdType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:Delay">
+          <q2:Count>300</q2:Count>
+        </Combinator>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge>
+        <From>0</From>
+        <To>1</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>0</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>0</From>
+        <To>3</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>0</From>
+        <To>4</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>5</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>7</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>4</From>
+        <To>9</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>5</From>
+        <To>13</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>7</From>
+        <To>8</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>9</From>
+        <To>12</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>10</From>
+        <To>11</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>12</From>
+        <To>10</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>13</From>
+        <To>10</To>
+        <Label>Source1</Label>
+      </Edge>
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.Ephys.Rhd2000EvalBoard, Bonsai.Ephys, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Ephys.AdcScale, Bonsai.Ephys, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.SelectChannels, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Zip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.TriggeredBuffer, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Threshold, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Delay, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>

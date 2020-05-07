@@ -13,7 +13,7 @@
       <Expression xsi:type="Add" />
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="StringProperty">
-          <Value>20180829\</Value>
+          <Value>20190625\</Value>
         </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
@@ -23,7 +23,7 @@
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="q1:GetFiles">
-          <q1:Path>Z:\mormyrid_data\20180829\</q1:Path>
+          <q1:Path>Z:\mormyrid_data\20190625\</q1:Path>
           <q1:SearchPattern>video_*.avi</q1:SearchPattern>
           <q1:SearchOption>TopDirectoryOnly</q1:SearchOption>
         </Combinator>
@@ -111,20 +111,20 @@
                             <q2:Regions>
                               <q2:ArrayOfPoint>
                                 <q2:Point>
-                                  <q2:X>1191</q2:X>
-                                  <q2:Y>1029</q2:Y>
+                                  <q2:X>1177</q2:X>
+                                  <q2:Y>1053</q2:Y>
                                 </q2:Point>
                                 <q2:Point>
-                                  <q2:X>1234</q2:X>
-                                  <q2:Y>1037</q2:Y>
+                                  <q2:X>1199</q2:X>
+                                  <q2:Y>1058</q2:Y>
                                 </q2:Point>
                                 <q2:Point>
-                                  <q2:X>1237</q2:X>
-                                  <q2:Y>1101</q2:Y>
+                                  <q2:X>1204</q2:X>
+                                  <q2:Y>1096</q2:Y>
                                 </q2:Point>
                                 <q2:Point>
-                                  <q2:X>1188</q2:X>
-                                  <q2:Y>1087</q2:Y>
+                                  <q2:X>1181</q2:X>
+                                  <q2:Y>1099</q2:Y>
                                 </q2:Point>
                               </q2:ArrayOfPoint>
                             </q2:Regions>
@@ -202,7 +202,7 @@
                   <Expression xsi:type="ExternalizedPropertyOfDoubleRoiActivityDetected">
                     <MemberName>Threshold</MemberName>
                     <Name>LEDThreshold</Name>
-                    <Value>300000</Value>
+                    <Value>100000</Value>
                   </Expression>
                   <Expression xsi:type="WorkflowInput">
                     <Name>Source2</Name>
@@ -212,7 +212,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q1:TextWriter">
-                      <q1:FileName>Z:\mormyrid_data\20180829\video_syncTS_offline_10</q1:FileName>
+                      <q1:FileName>Z:\mormyrid_data\20190625\video_syncTS_offline_42</q1:FileName>
                       <q1:Suffix>None</q1:Suffix>
                       <q1:Buffered>false</q1:Buffered>
                       <q1:Overwrite>false</q1:Overwrite>
@@ -310,7 +310,7 @@
             <Expression xsi:type="WorkflowOutput" />
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q2:FileCapture">
-                <q2:FileName>Z:\mormyrid_data\20180829\video_10.avi</q2:FileName>
+                <q2:FileName>Z:\mormyrid_data\20190625\video_42.avi</q2:FileName>
                 <q2:PlaybackRate>350</q2:PlaybackRate>
                 <q2:StartPosition>0</q2:StartPosition>
                 <q2:PositionUnits>Frames</q2:PositionUnits>
@@ -398,23 +398,23 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="IntProperty">
-                <Value>7</Value>
+                <Value>42</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="ExternalizedPropertyOfInt32IntProperty">
               <MemberName>Value</MemberName>
               <Name>first file</Name>
-              <Value>7</Value>
+              <Value>42</Value>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="IntProperty">
-                <Value>10</Value>
+                <Value>42</Value>
               </Combinator>
             </Expression>
             <Expression xsi:type="ExternalizedPropertyOfInt32IntProperty">
               <MemberName>Value</MemberName>
               <Name>Last file</Name>
-              <Value>10</Value>
+              <Value>42</Value>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="CombineLatest" />

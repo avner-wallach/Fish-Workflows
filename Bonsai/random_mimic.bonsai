@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.3.0">
+  <Workflow xmlns:q1="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q2="clr-namespace:Bonsai.NationalInstruments;assembly=Bonsai.NationalInstruments" xmlns="https://horizongir.org/bonsai">
+    <Nodes>
+      <Expression xsi:type="ExternalizedPropertyOfDoubleDoubleProperty">
+        <MemberName>Value</MemberName>
+        <Name>Sample Rate</Name>
+        <Value>100000</Value>
+      </Expression>
+      <Expression xsi:type="q1:PythonTransform">
+        <q1:Script>import clr
+clr.AddReference("OpenCV.Net")
+from OpenCV.Net import *
+from System import Array
+from System import Random, TimeSpan
+
+@returns(Mat)
+def process(value):
+  L=int(value.Item1)
+  while True:
+    random = Random()
+    A=random.NextDouble()*(value.Item3-value.Item2)+value.Item2
+    array = Array.CreateInstance(float,L)
+    for i in range(L):
+      if (i&gt;500 and i&lt;700):
+        array[i] = A
+      else:
+        array[i] = 0
+      
+    return Mat.FromArray(array,1,L,Depth.F64,1)
+    </q1:Script>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:AnalogOutput">
+          <q2:SignalSource />
+          <q2:SampleRate>100000</q2:SampleRate>
+          <q2:ActiveEdge>Rising</q2:ActiveEdge>
+          <q2:QuantityMode>FiniteSamples</q2:QuantityMode>
+          <q2:BufferSize>20000</q2:BufferSize>
+          <q2:Channels>
+            <q2:AnalogOutputChannelConfiguration>
+              <q2:ChannelName />
+              <q2:MinimumValue>-10</q2:MinimumValue>
+              <q2:MaximumValue>10</q2:MaximumValue>
+              <q2:PhysicalChannel>cDAQ1Mod1/ao1</q2:PhysicalChannel>
+              <q2:VoltageUnits>Volts</q2:VoltageUnits>
+            </q2:AnalogOutputChannelConfiguration>
+          </q2:Channels>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="DoubleProperty">
+          <Value>1</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfDoubleDoubleProperty">
+        <MemberName>Value</MemberName>
+        <Name>Mimic Rate</Name>
+        <Value>5</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="DoubleProperty">
+          <Value>100000</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfDoubleAnalogOutput">
+        <MemberName>SampleRate</MemberName>
+        <Name>SampleRate</Name>
+        <Value>100000</Value>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfInt32AnalogOutput">
+        <MemberName>BufferSize</MemberName>
+        <Name>BufferSize</Name>
+        <Value>1000</Value>
+      </Expression>
+      <Expression xsi:type="Divide" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="DoubleProperty">
+          <Value>5</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfDoubleDoubleProperty">
+        <MemberName>Value</MemberName>
+        <Name>Min Amp</Name>
+        <Value>1</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="DoubleProperty">
+          <Value>5</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfDoubleDoubleProperty">
+        <MemberName>Value</MemberName>
+        <Name>Max Amp</Name>
+        <Value>5</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="q1:PythonSource">
+        <q1:Script>
+import clr
+clr.AddReference("OpenCV.Net")
+from OpenCV.Net import *
+from System import Array
+from System import Random, TimeSpan
+
+@returns(Mat)
+def generate():
+  L=20000
+  random = Random()
+  A=random.NextDouble()*(4)+1
+  array = Array.CreateInstance(float,L)
+  for i in range(L):
+    if (i&gt;500 and i&lt;700):
+      array[i] = A
+    else:
+      array[i] = 0
+      
+  yield Mat.FromArray(array,1,L,Depth.F64,1)
+    </q1:Script>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Repeat" />
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge>
+        <From>0</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>1</From>
+        <To>2</To>
+        <Label>Source3</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>16</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>14</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>4</From>
+        <To>10</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>5</From>
+        <To>9</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>6</From>
+        <To>7</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>6</From>
+        <To>5</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>7</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>8</From>
+        <To>2</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>9</From>
+        <To>14</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>9</From>
+        <To>8</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>10</From>
+        <To>5</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>3</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>12</From>
+        <To>14</To>
+        <Label>Source3</Label>
+      </Edge>
+      <Edge>
+        <From>13</From>
+        <To>12</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>14</From>
+        <To>1</To>
+        <Label>Source1</Label>
+      </Edge>
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.DoubleProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.NationalInstruments.AnalogOutput, Bonsai.NationalInstruments, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.DoubleProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Zip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.NationalInstruments.AnalogOutput, Bonsai.NationalInstruments, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.NationalInstruments.AnalogOutput, Bonsai.NationalInstruments, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.DivideBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonSource, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Repeat, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>

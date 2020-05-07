@@ -1,0 +1,503 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.3.0">
+  <Workflow xmlns:q1="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q2="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:q3="clr-namespace:Bonsai.NationalInstruments;assembly=Bonsai.NationalInstruments" xmlns="https://horizongir.org/bonsai">
+    <Nodes>
+      <Expression xsi:type="ReplaySubject">
+        <Name>DataPath</Name>
+        <BufferSize xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="StringProperty">
+          <Value>Z:\mormyrid_data\</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfStringMatrixWriter">
+        <MemberName>Path</MemberName>
+        <Name>Path</Name>
+        <Value>Z:\mormyrid_data\20190508\ni_0</Value>
+      </Expression>
+      <Expression xsi:type="q1:PythonTransform">
+        <q1:Script>import time
+import os
+from datetime import date
+today = date.today()
+@returns(str)
+def process(value):
+  sep="\\"
+  month='{0:d}'.format(today.month)
+  d='{:%Y%m%d}'.format(today)
+  path=value+d+sep
+  if not os.path.exists(path):
+    os.mkdir(path)
+
+  fname = path+'counter.txt'
+  if not os.path.isfile(str(fname)):
+    file= open(fname,'w') 
+    file.write(str(0))
+    file.close()
+
+
+  return path</q1:Script>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:MatrixWriter">
+          <q2:Path>Z:\mormyrid_data\20191212\NIpulses_</q2:Path>
+          <q2:Suffix>FileCount</q2:Suffix>
+          <q2:Overwrite>false</q2:Overwrite>
+          <q2:Layout>RowMajor</q2:Layout>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfDoubleDoubleProperty">
+        <MemberName>Value</MemberName>
+        <Name>window</Name>
+        <Value>0.025</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="DoubleProperty">
+          <Value>0.025</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:TriggeredBuffer">
+          <q2:Count>2500</q2:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfDoubleDoubleProperty">
+        <MemberName>Value</MemberName>
+        <Name>Sample Rate</Name>
+        <Value>100000</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="DoubleProperty">
+          <Value>5</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="DoubleProperty">
+          <Value>100000</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="Divide" />
+      <Expression xsi:type="ExternalizedPropertyOfInt32AnalogOutput">
+        <MemberName>BufferSize</MemberName>
+        <Name>BufferSize</Name>
+        <Value>1000</Value>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfDoubleAnalogOutput">
+        <MemberName>SampleRate</MemberName>
+        <Name>SampleRate</Name>
+        <Value>100000</Value>
+      </Expression>
+      <Expression xsi:type="Add" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:AnalogInput">
+          <q3:SignalSource />
+          <q3:SampleRate>100000</q3:SampleRate>
+          <q3:ActiveEdge>Rising</q3:ActiveEdge>
+          <q3:QuantityMode>ContinuousSamples</q3:QuantityMode>
+          <q3:BufferSize>20000</q3:BufferSize>
+          <q3:SamplesPerRead>-1</q3:SamplesPerRead>
+          <q3:Channels>
+            <q3:AnalogInputChannelConfiguration>
+              <q3:ChannelName />
+              <q3:MinimumValue>-10</q3:MinimumValue>
+              <q3:MaximumValue>10</q3:MaximumValue>
+              <q3:PhysicalChannel>cDAQ1Mod2/ai0</q3:PhysicalChannel>
+              <q3:TerminalConfiguration>Rse</q3:TerminalConfiguration>
+              <q3:VoltageUnits>Volts</q3:VoltageUnits>
+            </q3:AnalogInputChannelConfiguration>
+            <q3:AnalogInputChannelConfiguration>
+              <q3:ChannelName />
+              <q3:MinimumValue>-10</q3:MinimumValue>
+              <q3:MaximumValue>10</q3:MaximumValue>
+              <q3:PhysicalChannel>cDAQ1Mod2/ai1</q3:PhysicalChannel>
+              <q3:TerminalConfiguration>Rse</q3:TerminalConfiguration>
+              <q3:VoltageUnits>Volts</q3:VoltageUnits>
+            </q3:AnalogInputChannelConfiguration>
+            <q3:AnalogInputChannelConfiguration>
+              <q3:ChannelName />
+              <q3:MinimumValue>-10</q3:MinimumValue>
+              <q3:MaximumValue>10</q3:MaximumValue>
+              <q3:PhysicalChannel>cDAQ1Mod2/ai2</q3:PhysicalChannel>
+              <q3:TerminalConfiguration>Rse</q3:TerminalConfiguration>
+              <q3:VoltageUnits>Volts</q3:VoltageUnits>
+            </q3:AnalogInputChannelConfiguration>
+            <q3:AnalogInputChannelConfiguration>
+              <q3:ChannelName />
+              <q3:MinimumValue>-10</q3:MinimumValue>
+              <q3:MaximumValue>10</q3:MaximumValue>
+              <q3:PhysicalChannel>cDAQ1Mod2/ai3</q3:PhysicalChannel>
+              <q3:TerminalConfiguration>Rse</q3:TerminalConfiguration>
+              <q3:VoltageUnits>Volts</q3:VoltageUnits>
+            </q3:AnalogInputChannelConfiguration>
+          </q3:Channels>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfDoubleDoubleProperty">
+        <MemberName>Value</MemberName>
+        <Name>Mimic Rate</Name>
+        <Value>5</Value>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>DataPath</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="StringProperty">
+          <Value>NIpulses_</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfInt32TriggeredBuffer">
+        <MemberName>Count</MemberName>
+        <Name>Count</Name>
+        <Value>200</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:Delay">
+          <q2:Count>1000</q2:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:SelectChannels">
+          <q2:Channels>
+            <q2:int>1</q2:int>
+            <q2:int>2</q2:int>
+            <q2:int>3</q2:int>
+          </q2:Channels>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Add" />
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:Shift">
+          <q2:Offset>
+            <q2:X>1</q2:X>
+            <q2:Y>0</q2:Y>
+          </q2:Offset>
+          <q2:BorderType>Constant</q2:BorderType>
+          <q2:FillValue>
+            <q2:Val0>0</q2:Val0>
+            <q2:Val1>0</q2:Val1>
+            <q2:Val2>0</q2:Val2>
+            <q2:Val3>0</q2:Val3>
+          </q2:FillValue>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:Threshold">
+          <q2:ThresholdValue>0.5</q2:ThresholdValue>
+          <q2:MaxValue>1</q2:MaxValue>
+          <q2:ThresholdType>Binary</q2:ThresholdType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:Difference">
+          <q2:Order>1</q2:Order>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:Threshold">
+          <q2:ThresholdValue>2</q2:ThresholdValue>
+          <q2:MaxValue>1</q2:MaxValue>
+          <q2:ThresholdType>Binary</q2:ThresholdType>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:SelectChannels">
+          <q2:Channels>
+            <q2:int>0</q2:int>
+          </q2:Channels>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q2:ConvertScale">
+          <q2:Depth>F32</q2:Depth>
+          <q2:Scale>1</q2:Scale>
+          <q2:Shift>0</q2:Shift>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Source.Depth</Selector>
+      </Expression>
+      <Expression xsi:type="Multiply" />
+      <Expression xsi:type="ExternalizedPropertyOfInt32Delay">
+        <MemberName>Count</MemberName>
+        <Name>Delay Count</Name>
+        <Value>20</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="DoubleProperty">
+          <Value>0.01</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfDoubleDoubleProperty">
+        <MemberName>Value</MemberName>
+        <Name>delay (ms)</Name>
+        <Value>0.01</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Zip" />
+      </Expression>
+      <Expression xsi:type="Multiply" />
+    </Nodes>
+    <Edges>
+      <Edge>
+        <From>1</From>
+        <To>3</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>4</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>3</From>
+        <To>0</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>5</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>6</From>
+        <To>7</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>7</From>
+        <To>35</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>8</From>
+        <To>4</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>9</From>
+        <To>11</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>10</From>
+        <To>12</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>15</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>12</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>7</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>39</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>12</From>
+        <To>13</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>13</From>
+        <To>14</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>14</From>
+        <To>17</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>15</From>
+        <To>17</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>16</From>
+        <To>2</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>17</From>
+        <To>25</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>17</From>
+        <To>32</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>18</From>
+        <To>16</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>19</From>
+        <To>10</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>20</From>
+        <To>18</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>21</From>
+        <To>18</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>22</From>
+        <To>8</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>23</From>
+        <To>24</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>24</From>
+        <To>8</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>25</From>
+        <To>23</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>25</From>
+        <To>34</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>26</From>
+        <To>24</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>27</From>
+        <To>26</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>28</From>
+        <To>27</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>29</From>
+        <To>28</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>29</From>
+        <To>27</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>30</From>
+        <To>29</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>31</From>
+        <To>30</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>32</From>
+        <To>33</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>33</From>
+        <To>31</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>35</From>
+        <To>22</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>36</From>
+        <To>23</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>37</From>
+        <To>39</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>38</From>
+        <To>37</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>39</From>
+        <To>40</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>40</From>
+        <To>36</To>
+        <Label>Source1</Label>
+      </Edge>
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.Expressions.StringProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.MatrixWriter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.MatrixWriter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.DoubleProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.DoubleProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Zip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.TriggeredBuffer, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.DivideBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.NationalInstruments.AnalogOutput, Bonsai.NationalInstruments, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.NationalInstruments.AnalogOutput, Bonsai.NationalInstruments, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.AddBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.NationalInstruments.AnalogInput, Bonsai.NationalInstruments, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.TriggeredBuffer, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Delay, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.SelectChannels, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Shift, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Threshold, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Difference, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.ConvertScale, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.MultiplyBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.Delay, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>
