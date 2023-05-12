@@ -1,0 +1,2906 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.3.0">
+  <Workflow xmlns:q2="clr-namespace:Bonsai.Dsp;assembly=Bonsai.Dsp" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:q3="clr-namespace:Bonsai.IO;assembly=Bonsai.System" xmlns:q7="clr-namespace:Bonsai.PointGrey;assembly=Bonsai.PointGrey" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:q5="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision" xmlns:q4="clr-namespace:Bonsai.Scripting;assembly=Bonsai.Scripting" xmlns:q6="clr-namespace:Bonsai.Windows.Input;assembly=Bonsai.Windows.Input" xmlns:q1="clr-namespace:Bonsai.Ephys;assembly=Bonsai.Ephys" xmlns="https://horizongir.org/bonsai">
+    <Nodes>
+      <Expression xsi:type="ReplaySubject">
+        <Name>DataPath</Name>
+        <BufferSize xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q1:Rhd2000EvalBoard">
+          <q1:BitFileName>rhd2000_usb3.bit</q1:BitFileName>
+          <q1:SampleRate>SampleRate30000Hz</q1:SampleRate>
+          <q1:ExternalFastSettleEnabled>false</q1:ExternalFastSettleEnabled>
+          <q1:LowerBandwidth>1</q1:LowerBandwidth>
+          <q1:UpperBandwidth>7500</q1:UpperBandwidth>
+          <q1:DspCutoffFrequency>1</q1:DspCutoffFrequency>
+          <q1:DspEnabled>false</q1:DspEnabled>
+          <q1:CableDelayA xsi:nil="true" />
+          <q1:CableDelayB xsi:nil="true" />
+          <q1:CableDelayC xsi:nil="true" />
+          <q1:CableDelayD xsi:nil="true" />
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="StringProperty">
+          <Value>Z:\mormyrid_data\</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="SelectMany">
+        <Name>PeriodicEphys</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="NestedWorkflow">
+              <Name>SaveAdc</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="ExternalizedPropertyOfStringMatrixWriter">
+                    <MemberName>Path</MemberName>
+                    <Name>AdcFile</Name>
+                    <Value>C:\Users\Ephys\Documents\bonsai-data\Avner\test\adc_data_</Value>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q2:MatrixWriter">
+                      <q2:Path>Z:\mormyrid_data\20200813\adc_5</q2:Path>
+                      <q2:Suffix>None</q2:Suffix>
+                      <q2:Overwrite>false</q2:Overwrite>
+                      <q2:Layout>RowMajor</q2:Layout>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Add" />
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>DataPath</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>adc_</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q2:SelectChannels">
+                      <q2:Channels>
+                        <q2:int>0</q2:int>
+                        <q2:int>1</q2:int>
+                        <q2:int>3</q2:int>
+                      </q2:Channels>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.BoardAdcData</Selector>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfArrayOfInt32SelectChannels">
+                    <MemberName>Channels</MemberName>
+                    <Name>Channels</Name>
+                    <Value>
+                      <int>0</int>
+                      <int>1</int>
+                      <int>3</int>
+                    </Value>
+                  </Expression>
+                  <Expression xsi:type="Condition">
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="BooleanProperty">
+                            <Value>true</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                          <MemberName>Value</MemberName>
+                          <Name>Save</Name>
+                          <Value>true</Value>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>2</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                    <MemberName>Save</MemberName>
+                    <Name>Save</Name>
+                    <Value>true</Value>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>FileNum</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="CombineLatest" />
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>8</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>3</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>13</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>13</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>7</From>
+                    <To>10</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>8</From>
+                    <To>7</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>9</From>
+                    <To>7</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>10</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>11</From>
+                    <To>10</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>12</From>
+                    <To>13</To>
+                    <Label>Source3</Label>
+                  </Edge>
+                  <Edge>
+                    <From>13</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+              <MemberName>Save</MemberName>
+              <Name>Save</Name>
+              <Value>true</Value>
+            </Expression>
+            <Expression xsi:type="NestedWorkflow">
+              <Name>SavePulses</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
+                    <MemberName>FileName</MemberName>
+                    <Name>PulsesFile</Name>
+                    <Value>C:\Users\Ephys\iCloudDrive\Documents\Mormyrid_Data\Data\20171201\EOD_data.csv</Value>
+                  </Expression>
+                  <Expression xsi:type="NestedWorkflow">
+                    <Name>DetectPulse</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="SelectMany">
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Source.SampleIndex</Selector>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="Concat" />
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Source.ChannelIndex</Selector>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="Zip" />
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge>
+                                <From>0</From>
+                                <To>2</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>1</From>
+                                <To>4</To>
+                                <Label>Source2</Label>
+                              </Edge>
+                              <Edge>
+                                <From>2</From>
+                                <To>3</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>2</From>
+                                <To>1</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>3</From>
+                                <To>4</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>4</From>
+                                <To>5</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="Condition">
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Source.Count</Selector>
+                              </Expression>
+                              <Expression xsi:type="GreaterThan">
+                                <Operand xsi:type="IntProperty">
+                                  <Value>0</Value>
+                                </Operand>
+                              </Expression>
+                            </Nodes>
+                            <Edges>
+                              <Edge>
+                                <From>0</From>
+                                <To>2</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>2</From>
+                                <To>3</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>3</From>
+                                <To>1</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:DetectSpikes">
+                            <q2:Delay>25</q2:Delay>
+                            <q2:Length>50</q2:Length>
+                            <q2:Threshold>
+                              <q2:double>0.1</q2:double>
+                              <q2:double>0.5</q2:double>
+                              <q2:double>0.5</q2:double>
+                            </q2:Threshold>
+                            <q2:WaveformRefinement>None</q2:WaveformRefinement>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:Concat">
+                            <q2:Axis>0</q2:Axis>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Zip" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:FrequencyFilter">
+                            <q2:SamplingFrequency>30000</q2:SamplingFrequency>
+                            <q2:Cutoff1>500</q2:Cutoff1>
+                            <q2:Cutoff2>0</q2:Cutoff2>
+                            <q2:KernelLength>60</q2:KernelLength>
+                            <q2:FilterType>HighPass</q2:FilterType>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:SelectChannels">
+                            <q2:Channels>
+                              <q2:int>1</q2:int>
+                            </q2:Channels>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfDoubleFrequencyFilter">
+                          <MemberName>SamplingFrequency</MemberName>
+                          <Name>FilterSampleRate</Name>
+                          <Value>30000</Value>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfDoubleFrequencyFilter">
+                          <MemberName>Cutoff1</MemberName>
+                          <Name>Cutoff_HPF</Name>
+                          <Value>500</Value>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:Difference">
+                            <q2:Order>1</q2:Order>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:Threshold">
+                            <q2:ThresholdValue>2</q2:ThresholdValue>
+                            <q2:MaxValue>1</q2:MaxValue>
+                            <q2:ThresholdType>Binary</q2:ThresholdType>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Zip" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:Shift">
+                            <q2:Offset>
+                              <q2:X>1</q2:X>
+                              <q2:Y>0</q2:Y>
+                            </q2:Offset>
+                            <q2:BorderType>Constant</q2:BorderType>
+                            <q2:FillValue>
+                              <q2:Val0>0</q2:Val0>
+                              <q2:Val1>0</q2:Val1>
+                              <q2:Val2>0</q2:Val2>
+                              <q2:Val3>0</q2:Val3>
+                            </q2:FillValue>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfDoubleExternalizedPropertyOfDoubleFrequencyFilter">
+                          <MemberName>Value</MemberName>
+                          <Name>InputSampleRate</Name>
+                          <Value>30000</Value>
+                        </Expression>
+                        <Expression xsi:type="Add" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:Threshold">
+                            <q2:ThresholdValue>0.5</q2:ThresholdValue>
+                            <q2:MaxValue>1</q2:MaxValue>
+                            <q2:ThresholdType>Binary</q2:ThresholdType>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="q3:CsvWriter">
+                          <q3:FileName>Z:\mormyrid_data\20200813\pulses_5</q3:FileName>
+                          <q3:Append>true</q3:Append>
+                          <q3:Overwrite>true</q3:Overwrite>
+                          <q3:Suffix>None</q3:Suffix>
+                          <q3:IncludeHeader>false</q3:IncludeHeader>
+                          <q3:Selector>Source</q3:Selector>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
+                          <MemberName>FileName</MemberName>
+                          <Name>FileName</Name>
+                          <Value>Z:\mormyrid_data\20200813\pulses_5</Value>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfArrayOfDoubleDetectSpikes">
+                          <MemberName>Threshold</MemberName>
+                          <Name>Threshold</Name>
+                          <Value>
+                            <double>0.1</double>
+                            <double>0.5</double>
+                            <double>0.5</double>
+                          </Value>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:SelectChannels">
+                            <q2:Channels>
+                              <q2:int>0</q2:int>
+                            </q2:Channels>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Condition">
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="BooleanProperty">
+                                  <Value>true</Value>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                                <MemberName>Value</MemberName>
+                                <Name>Save</Name>
+                                <Value>true</Value>
+                              </Expression>
+                            </Nodes>
+                            <Edges>
+                              <Edge>
+                                <From>2</From>
+                                <To>1</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>3</From>
+                                <To>2</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                          <MemberName>Save</MemberName>
+                          <Name>Save</Name>
+                          <Value>true</Value>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:SelectChannels">
+                            <q2:Channels>
+                              <q2:int>2</q2:int>
+                            </q2:Channels>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Add" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Zip" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:Shift">
+                            <q2:Offset>
+                              <q2:X>1</q2:X>
+                              <q2:Y>0</q2:Y>
+                            </q2:Offset>
+                            <q2:BorderType>Constant</q2:BorderType>
+                            <q2:FillValue>
+                              <q2:Val0>0</q2:Val0>
+                              <q2:Val1>0</q2:Val1>
+                              <q2:Val2>0</q2:Val2>
+                              <q2:Val3>0</q2:Val3>
+                            </q2:FillValue>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:Threshold">
+                            <q2:ThresholdValue>0.5</q2:ThresholdValue>
+                            <q2:MaxValue>1</q2:MaxValue>
+                            <q2:ThresholdType>Binary</q2:ThresholdType>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:Difference">
+                            <q2:Order>1</q2:Order>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:Threshold">
+                            <q2:ThresholdValue>2</q2:ThresholdValue>
+                            <q2:MaxValue>1</q2:MaxValue>
+                            <q2:ThresholdType>BinaryInv</q2:ThresholdType>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q2:FrequencyFilter">
+                            <q2:SamplingFrequency>30000</q2:SamplingFrequency>
+                            <q2:Cutoff1>50</q2:Cutoff1>
+                            <q2:Cutoff2>0</q2:Cutoff2>
+                            <q2:KernelLength>60</q2:KernelLength>
+                            <q2:FilterType>LowPass</q2:FilterType>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfDoubleFrequencyFilter">
+                          <MemberName>Cutoff1</MemberName>
+                          <Name>Cutoff_LPF</Name>
+                          <Value>50</Value>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q1:AdcScale">
+                            <q1:AdcType>BoardAdc</q1:AdcType>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="NestedWorkflow">
+                          <Name>EOD rate</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowOutput" />
+                              <Expression xsi:type="Divide" />
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="CombineLatest" />
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="DoubleProperty">
+                                  <Value>30000</Value>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Subtract" />
+                              <Expression xsi:type="ExternalizedPropertyOfDoubleDoubleProperty">
+                                <MemberName>Value</MemberName>
+                                <Name>InputSampleRate</Name>
+                                <Value>30000</Value>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="Skip">
+                                  <Count>1</Count>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="SelectMany">
+                                <Name>EOD index</Name>
+                                <Workflow>
+                                  <Nodes>
+                                    <Expression xsi:type="WorkflowInput">
+                                      <Name>Source1</Name>
+                                    </Expression>
+                                    <Expression xsi:type="MemberSelector">
+                                      <Selector>Source.SampleIndex</Selector>
+                                    </Expression>
+                                    <Expression xsi:type="Combinator">
+                                      <Combinator xsi:type="Concat" />
+                                    </Expression>
+                                    <Expression xsi:type="Condition">
+                                      <Workflow>
+                                        <Nodes>
+                                          <Expression xsi:type="WorkflowInput">
+                                            <Name>Source1</Name>
+                                          </Expression>
+                                          <Expression xsi:type="WorkflowOutput" />
+                                          <Expression xsi:type="Equal">
+                                            <Operand xsi:type="IntProperty">
+                                              <Value>0</Value>
+                                            </Operand>
+                                          </Expression>
+                                          <Expression xsi:type="MemberSelector">
+                                            <Selector>Source.ChannelIndex</Selector>
+                                          </Expression>
+                                        </Nodes>
+                                        <Edges>
+                                          <Edge>
+                                            <From>0</From>
+                                            <To>3</To>
+                                            <Label>Source1</Label>
+                                          </Edge>
+                                          <Edge>
+                                            <From>2</From>
+                                            <To>1</To>
+                                            <Label>Source1</Label>
+                                          </Edge>
+                                          <Edge>
+                                            <From>3</From>
+                                            <To>2</To>
+                                            <Label>Source1</Label>
+                                          </Edge>
+                                        </Edges>
+                                      </Workflow>
+                                    </Expression>
+                                    <Expression xsi:type="WorkflowOutput" />
+                                  </Nodes>
+                                  <Edges>
+                                    <Edge>
+                                      <From>0</From>
+                                      <To>2</To>
+                                      <Label>Source1</Label>
+                                    </Edge>
+                                    <Edge>
+                                      <From>1</From>
+                                      <To>4</To>
+                                      <Label>Source1</Label>
+                                    </Edge>
+                                    <Edge>
+                                      <From>2</From>
+                                      <To>3</To>
+                                      <Label>Source1</Label>
+                                    </Edge>
+                                    <Edge>
+                                      <From>3</From>
+                                      <To>1</To>
+                                      <Label>Source1</Label>
+                                    </Edge>
+                                  </Edges>
+                                </Workflow>
+                              </Expression>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="Zip" />
+                              </Expression>
+                            </Nodes>
+                            <Edges>
+                              <Edge>
+                                <From>1</From>
+                                <To>0</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>2</From>
+                                <To>1</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>3</From>
+                                <To>2</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>4</From>
+                                <To>2</To>
+                                <Label>Source2</Label>
+                              </Edge>
+                              <Edge>
+                                <From>5</From>
+                                <To>3</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>6</From>
+                                <To>9</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>7</From>
+                                <To>6</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>7</From>
+                                <To>9</To>
+                                <Label>Source2</Label>
+                              </Edge>
+                              <Edge>
+                                <From>8</From>
+                                <To>7</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                              <Edge>
+                                <From>9</From>
+                                <To>4</To>
+                                <Label>Source1</Label>
+                              </Edge>
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfDoubleDoubleProperty">
+                          <MemberName>InputSampleRate</MemberName>
+                          <Name>RateSampleRate</Name>
+                          <Value>30000</Value>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>0</From>
+                          <To>33</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>22</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>34</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>4</From>
+                          <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>4</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>5</From>
+                          <To>4</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>6</From>
+                          <To>5</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>7</From>
+                          <To>6</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>8</From>
+                          <To>12</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>9</From>
+                          <To>7</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>9</From>
+                          <To>31</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>10</From>
+                          <To>7</To>
+                          <Label>Source3</Label>
+                        </Edge>
+                        <Edge>
+                          <From>11</From>
+                          <To>17</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>12</From>
+                          <To>11</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>13</From>
+                          <To>16</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>14</From>
+                          <To>13</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>15</From>
+                          <To>9</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>15</From>
+                          <To>35</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>16</From>
+                          <To>6</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>17</From>
+                          <To>14</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>17</From>
+                          <To>13</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>19</From>
+                          <To>18</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>20</From>
+                          <To>4</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>21</From>
+                          <To>7</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>22</From>
+                          <To>18</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>23</From>
+                          <To>22</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>24</From>
+                          <To>31</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>25</From>
+                          <To>6</To>
+                          <Label>Source3</Label>
+                        </Edge>
+                        <Edge>
+                          <From>26</From>
+                          <To>25</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>27</From>
+                          <To>26</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>28</From>
+                          <To>27</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>28</From>
+                          <To>26</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>29</From>
+                          <To>28</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>30</From>
+                          <To>29</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>31</From>
+                          <To>30</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>32</From>
+                          <To>31</To>
+                          <Label>Source3</Label>
+                        </Edge>
+                        <Edge>
+                          <From>33</From>
+                          <To>21</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>33</From>
+                          <To>8</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>33</From>
+                          <To>24</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>35</From>
+                          <To>34</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="Add" />
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Zip" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>DataPath</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>pulses_</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.BoardAdcData</Selector>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfDoubleExternalizedPropertyOfDoubleFrequencyFilter">
+                    <MemberName>InputSampleRate</MemberName>
+                    <Name>InputSampleRate</Name>
+                    <Value>30000</Value>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfArrayOfDoubleDetectSpikes">
+                    <MemberName>Threshold</MemberName>
+                    <Name>Threshold</Name>
+                    <Value>
+                      <double>0.1</double>
+                      <double>0.5</double>
+                      <double>0.5</double>
+                    </Value>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                    <MemberName>Save</MemberName>
+                    <Name>Save</Name>
+                    <Value>true</Value>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>FileNum</Name>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>8</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>3</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>5</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>7</From>
+                    <To>5</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>8</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>9</From>
+                    <To>3</To>
+                    <Label>Source3</Label>
+                  </Edge>
+                  <Edge>
+                    <From>10</From>
+                    <To>3</To>
+                    <Label>Source4</Label>
+                  </Edge>
+                  <Edge>
+                    <From>11</From>
+                    <To>3</To>
+                    <Label>Source5</Label>
+                  </Edge>
+                  <Edge>
+                    <From>12</From>
+                    <To>5</To>
+                    <Label>Source3</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="ReplaySubject">
+              <Name>FileNum</Name>
+              <BufferSize xsi:nil="true" />
+            </Expression>
+            <Expression xsi:type="q4:PythonTransform">
+              <q4:Name>FindFileNum</q4:Name>
+              <q4:Script>@returns(str)
+def process(value):
+  fname = value + 'counter.txt'
+  file= open(fname,'r') 
+  num=file.read()
+  file.close()
+  return num</q4:Script>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DataPath</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfArrayOfInt32SelectChannels">
+              <MemberName>Channels</MemberName>
+              <Name>AdcChannels</Name>
+              <Value>
+                <int>0</int>
+                <int>1</int>
+                <int>3</int>
+              </Value>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>1</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>1</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>0</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>3</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>5</From>
+              <To>4</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>6</From>
+              <To>5</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>7</From>
+              <To>0</To>
+              <Label>Source3</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SelectMany">
+        <Name>PeriodicVideo</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q5:ImageWriter">
+                <q5:Path>\\.\pipe\video_all6</q5:Path>
+                <q5:Suffix>None</q5:Suffix>
+                <q5:Overwrite>false</q5:Overwrite>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="NestedWorkflow">
+              <Name>SaveTracking</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="q3:CsvWriter">
+                    <q3:FileName>Z:\mormyrid_data\20200813\tracking_5</q3:FileName>
+                    <q3:Append>false</q3:Append>
+                    <q3:Overwrite>false</q3:Overwrite>
+                    <q3:Suffix>None</q3:Suffix>
+                    <q3:IncludeHeader>false</q3:IncludeHeader>
+                    <q3:Selector>Source.X,Source.Y</q3:Selector>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
+                    <MemberName>FileName</MemberName>
+                    <Name>TrackingFile</Name>
+                    <Value>C:\Users\Ephys\Documents\bonsai-data\Avner\test\tracking_data_.csv</Value>
+                  </Expression>
+                  <Expression xsi:type="Add" />
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Zip" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>DataPath</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>tracking_</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>FileNum</Name>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>2</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>5</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>7</From>
+                    <To>5</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>8</From>
+                    <To>5</To>
+                    <Label>Source3</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="ReplaySubject">
+              <Name>FrameSize</Name>
+              <BufferSize xsi:nil="true" />
+            </Expression>
+            <Expression xsi:type="NestedWorkflow">
+              <Name>SaveVideoTS</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="q3:CsvWriter">
+                    <q3:FileName>Z:\mormyrid_data\20200813\videoTS_5</q3:FileName>
+                    <q3:Append>false</q3:Append>
+                    <q3:Overwrite>false</q3:Overwrite>
+                    <q3:Suffix>None</q3:Suffix>
+                    <q3:IncludeHeader>false</q3:IncludeHeader>
+                    <q3:Selector>Source.Item1,Source.Item2</q3:Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Zip" />
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
+                    <MemberName>FileName</MemberName>
+                    <Name>VideoTSFile</Name>
+                    <Value>C:\Users\Ephys\iCloudDrive\Documents\Mormyrid_Data\Data\frame_data_.csv</Value>
+                  </Expression>
+                  <Expression xsi:type="Subtract" />
+                  <Expression xsi:type="Add" />
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Zip" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Zip" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Skip">
+                      <Count>1</Count>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>DataPath</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>videoTS_</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Metadata.embeddedFrameCounter</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Metadata.embeddedTimeStamp</Selector>
+                  </Expression>
+                  <Expression xsi:type="Condition">
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="BooleanProperty">
+                            <Value>true</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                          <MemberName>Value</MemberName>
+                          <Name>Save</Name>
+                          <Value>true</Value>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>2</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                    <MemberName>Save</MemberName>
+                    <Name>Save</Name>
+                    <Value>true</Value>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>FileNum</Name>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>13</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>0</From>
+                    <To>12</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>14</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>3</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>7</From>
+                    <To>5</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>8</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>9</From>
+                    <To>7</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>10</From>
+                    <To>8</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>11</From>
+                    <To>8</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>12</From>
+                    <To>9</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>12</From>
+                    <To>7</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>13</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>14</From>
+                    <To>2</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>15</From>
+                    <To>14</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>16</From>
+                    <To>8</To>
+                    <Label>Source3</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="NestedWorkflow">
+              <Name>SaveVideoSyncTS</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Sample" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="CombineLatest" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Metadata.embeddedFrameCounter</Selector>
+                  </Expression>
+                  <Expression xsi:type="Condition">
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>0</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="Add" />
+                  <Expression xsi:type="NestedWorkflow">
+                    <Name>DetectLEDs</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Skip">
+                            <Count>1</Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q5:RoiActivityDetected">
+                            <q5:Index>0</q5:Index>
+                            <q5:Threshold>100</q5:Threshold>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Zip" />
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="LogicalAnd" />
+                        <Expression xsi:type="BitwiseNot" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q5:RoiActivity">
+                            <q5:Regions>
+                              <q5:ArrayOfPoint>
+                                <q5:Point>
+                                  <q5:X>1104</q5:X>
+                                  <q5:Y>1125</q5:Y>
+                                </q5:Point>
+                                <q5:Point>
+                                  <q5:X>1130</q5:X>
+                                  <q5:Y>1126</q5:Y>
+                                </q5:Point>
+                                <q5:Point>
+                                  <q5:X>1127</q5:X>
+                                  <q5:Y>1175</q5:Y>
+                                </q5:Point>
+                                <q5:Point>
+                                  <q5:X>1101</q5:X>
+                                  <q5:Y>1176</q5:Y>
+                                </q5:Point>
+                              </q5:ArrayOfPoint>
+                            </q5:Regions>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfDoubleRoiActivityDetected">
+                          <MemberName>Threshold</MemberName>
+                          <Name>Threshold</Name>
+                          <Value>100</Value>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q5:Threshold">
+                            <q5:ThresholdValue>200</q5:ThresholdValue>
+                            <q5:MaxValue>255</q5:MaxValue>
+                            <q5:ThresholdType>Binary</q5:ThresholdType>
+                          </Combinator>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>0</From>
+                          <To>9</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>1</From>
+                          <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>6</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>5</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>5</From>
+                          <To>4</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>6</From>
+                          <To>3</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>7</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>8</From>
+                          <To>2</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>9</From>
+                          <To>7</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="Zip" />
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>DataPath</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>video_syncTS</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q5:Grayscale" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Image</Selector>
+                  </Expression>
+                  <Expression xsi:type="Condition">
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="BooleanProperty">
+                            <Value>true</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                          <MemberName>Value</MemberName>
+                          <Name>Save</Name>
+                          <Value>true</Value>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>2</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                    <MemberName>Save</MemberName>
+                    <Name>Save</Name>
+                    <Value>true</Value>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfDoubleRoiActivityDetected">
+                    <MemberName>Threshold</MemberName>
+                    <Name>LEDThreshold</Name>
+                    <Value>100</Value>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>FileNum</Name>
+                  </Expression>
+                  <Expression xsi:type="q4:PythonTransform">
+                    <q4:Script>
+@returns(bool)
+def process(value):
+  fname=value.Item1
+  file= open(fname,'a') 
+  file.write(str(value.Item2)+'\n')
+  file.close()
+  return True</q4:Script>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>12</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>0</From>
+                    <To>4</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>13</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>17</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>5</From>
+                    <To>2</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>7</From>
+                    <To>5</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>8</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>9</From>
+                    <To>8</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>10</From>
+                    <To>8</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>11</From>
+                    <To>7</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>12</From>
+                    <To>11</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>13</From>
+                    <To>3</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>13</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>14</From>
+                    <To>13</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>15</From>
+                    <To>7</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>16</From>
+                    <To>8</To>
+                    <Label>Source3</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Take">
+                <Count>1</Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="NestedWorkflow">
+              <Name>Fishtracker</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Source.Centroid</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q5:LargestBinaryRegion" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q5:BinaryRegionAnalysis" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q5:FindContours">
+                      <q5:Mode>External</q5:Mode>
+                      <q5:Method>ChainApproxNone</q5:Method>
+                      <q5:Offset>
+                        <q5:X>0</q5:X>
+                        <q5:Y>0</q5:Y>
+                      </q5:Offset>
+                      <q5:MinArea xsi:nil="true" />
+                      <q5:MaxArea xsi:nil="true" />
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q5:Threshold">
+                      <q5:ThresholdValue>72</q5:ThresholdValue>
+                      <q5:MaxValue>255</q5:MaxValue>
+                      <q5:ThresholdType>BinaryInv</q5:ThresholdType>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="q5:MaskPolygon">
+                      <q5:Regions>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>1165</q5:X>
+                            <q5:Y>1109</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>1180</q5:X>
+                            <q5:Y>670</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>1150</q5:X>
+                            <q5:Y>81</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>29</q5:X>
+                            <q5:Y>1179</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                        <q5:ArrayOfPoint>
+                          <q5:Point>
+                            <q5:X>102</q5:X>
+                            <q5:Y>43</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>1168</q5:X>
+                            <q5:Y>79</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>59</q5:X>
+                            <q5:Y>1145</q5:Y>
+                          </q5:Point>
+                          <q5:Point>
+                            <q5:X>126</q5:X>
+                            <q5:Y>133</q5:Y>
+                          </q5:Point>
+                        </q5:ArrayOfPoint>
+                      </q5:Regions>
+                      <q5:MaskType>ToZero</q5:MaskType>
+                      <q5:FillValue>
+                        <q5:Val0>128</q5:Val0>
+                        <q5:Val1>0</q5:Val1>
+                        <q5:Val2>0</q5:Val2>
+                        <q5:Val3>0</q5:Val3>
+                      </q5:FillValue>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Condition">
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="BitwiseNot" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Skip">
+                            <Count>1</Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="LogicalAnd" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Zip" />
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>0</From>
+                          <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>0</From>
+                          <To>5</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>5</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>4</From>
+                          <To>1</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>5</From>
+                          <To>4</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="SelectMany">
+                    <Name>ArduinoCommand</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q3:SerialStringWrite">
+                            <q3:PortName>COM4</q3:PortName>
+                            <q3:NewLine>\r\n</q3:NewLine>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+                          <MemberName>PortName</MemberName>
+                          <Name>PortName</Name>
+                          <Value>COM4</Value>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>1</From>
+                          <To>0</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>1</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+                    <MemberName>PortName</MemberName>
+                    <Name>PortName</Name>
+                    <Value>COM4</Value>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>E</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="q4:PythonTransform">
+                    <q4:Script>@returns(bool)
+def process(value):
+  if(value.Item1.Y&lt;value.Item2 and value.Item1.X&gt;value.Item3):
+    return False
+  else:
+    return True</q4:Script>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="IntProperty">
+                      <Value>600</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfInt32IntProperty">
+                    <MemberName>Value</MemberName>
+                    <Name>Y</Name>
+                    <Value>600</Value>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="CombineLatest" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="StringProperty">
+                      <Value>S</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="IntProperty">
+                      <Value>600</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="SelectMany">
+                    <Name>ArduinoCommand</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="q3:SerialStringWrite">
+                            <q3:PortName>COM4</q3:PortName>
+                            <q3:NewLine>\r\n</q3:NewLine>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+                          <MemberName>PortName</MemberName>
+                          <Name>PortName</Name>
+                          <Value>COM4</Value>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>1</From>
+                          <To>0</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>1</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>1</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="Condition">
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                        <Expression xsi:type="BitwiseNot" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Skip">
+                            <Count>1</Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="LogicalAnd" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="Zip" />
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge>
+                          <From>0</From>
+                          <To>3</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>0</From>
+                          <To>2</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>2</From>
+                          <To>5</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>3</From>
+                          <To>5</To>
+                          <Label>Source1</Label>
+                        </Edge>
+                        <Edge>
+                          <From>4</From>
+                          <To>1</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                        <Edge>
+                          <From>5</From>
+                          <To>4</To>
+                          <Label>Source2</Label>
+                        </Edge>
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfInt32IntProperty">
+                    <MemberName>Value</MemberName>
+                    <Name>X</Name>
+                    <Value>600</Value>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>0</From>
+                    <To>5</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>0</From>
+                    <To>15</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>1</From>
+                    <To>0</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>4</From>
+                    <To>7</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>6</From>
+                    <To>3</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>7</From>
+                    <To>6</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>8</From>
+                    <To>11</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>10</From>
+                    <To>9</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>10</From>
+                    <To>18</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>11</From>
+                    <To>9</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>12</From>
+                    <To>8</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>12</From>
+                    <To>19</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>13</From>
+                    <To>15</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>14</From>
+                    <To>13</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>15</From>
+                    <To>12</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>16</From>
+                    <To>18</To>
+                    <Label>Source2</Label>
+                  </Edge>
+                  <Edge>
+                    <From>17</From>
+                    <To>15</To>
+                    <Label>Source3</Label>
+                  </Edge>
+                  <Edge>
+                    <From>19</From>
+                    <To>16</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>20</From>
+                    <To>17</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Size</Selector>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Image</Selector>
+            </Expression>
+            <Expression xsi:type="q4:PythonTransform">
+              <q4:Name>SaveCroppedVideo</q4:Name>
+              <q4:Script>import datetime
+import time
+from datetime import date
+from shutil import copyfile
+import os
+import clr
+clr.AddReference("Bonsai.System")
+clr.AddReference("OpenCV.Net")
+from OpenCV.Net import *
+from Bonsai.IO import PathHelper, PathSuffix
+pipename = r'\\.\pipe\video_all'
+dayone = date.today()
+#trackpath = r'Z:\mormyrid_data\TrackingVideos'
+
+def process(value):
+  file = open(value.Item2+'counter.txt','r') 
+#  num=str(int(file.read())-1)
+  num = file.read()
+  file.close()
+
+#  if int(num)&gt;0:
+#    pnum=str(int(num)-1)
+#    fname = value.Item2 +'video_' + pnum + '.avi'
+#    cfname= trackpath + r'\video_' + pnum + '.avi'
+#    copyfile(fname,cfname)
+    
+  fname = value.Item2 +'video_' + num + '.avi'
+#  cfname= trackpath + r'\video_' + num + '.avi'
+
+  pipe=pipename + num
+
+  num = str(int(num)+1)
+  file = open(value.Item2 + 'counter.txt','w') 
+  file.write(num)
+  file.close()
+  inrate=50
+  outrate=inrate
+  brate="3M"
+  width = value.Item1.Width
+  height =value.Item1.Height
+  os.system(str.format(r'ffmpeg -f rawvideo -vcodec rawvideo -y -s {0}x{1} -r {2} -pix_fmt gray -i {3} -vcodec mpeg4 -pix_fmt yuv420p -vb {4} -r {5} {6}',width,height,inrate,pipe,brate,outrate,fname))
+
+</q4:Script>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>FrameSize</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+              <MemberName>Save</MemberName>
+              <Name>Save</Name>
+              <Value>true</Value>
+            </Expression>
+            <Expression xsi:type="Condition">
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="BooleanProperty">
+                      <Value>true</Value>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+                    <MemberName>Value</MemberName>
+                    <Name>Save</Name>
+                    <Value>true</Value>
+                  </Expression>
+                </Nodes>
+                <Edges>
+                  <Edge>
+                    <From>2</From>
+                    <To>1</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                  <Edge>
+                    <From>3</From>
+                    <To>2</To>
+                    <Label>Source1</Label>
+                  </Edge>
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Source.Item2</Selector>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfStringImageWriter">
+              <MemberName>Path</MemberName>
+              <Name>Path</Name>
+              <Value>\\.\pipe\video_all0</Value>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="SubscribeWhen" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Timer">
+                <DueTime>PT2S</DueTime>
+                <Period>PT0S</Period>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DataPath</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="CombineLatest" />
+            </Expression>
+            <Expression xsi:type="q4:PythonTransform">
+              <q4:Name>FindFileNum</q4:Name>
+              <q4:Script>@returns(str)
+def process(value):
+  fname = value + 'counter.txt'
+  file= open(fname,'r') 
+  num=file.read()
+  file.close()
+  return num</q4:Script>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>DataPath</Name>
+            </Expression>
+            <Expression xsi:type="ReplaySubject">
+              <Name>FileNum</Name>
+              <BufferSize xsi:nil="true" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>FileNum</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="StringProperty">
+                <Value>\\.\pipe\video_all</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="CombineLatest" />
+            </Expression>
+            <Expression xsi:type="Add" />
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>27</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>14</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>5</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>6</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>7</From>
+              <To>5</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>13</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>6</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>10</From>
+              <To>8</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>10</From>
+              <To>4</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>10</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>11</From>
+              <To>16</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>12</From>
+              <To>13</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>12</From>
+              <To>4</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>12</From>
+              <To>3</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>13</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>15</From>
+              <To>0</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>16</From>
+              <To>19</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>17</From>
+              <To>16</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>18</From>
+              <To>19</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>19</From>
+              <To>9</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>20</From>
+              <To>22</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>21</From>
+              <To>20</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>23</From>
+              <To>25</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>24</From>
+              <To>25</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>25</From>
+              <To>26</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>26</From>
+              <To>15</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="TimeSpanWindow">
+          <TimeSpan>PT30M</TimeSpan>
+          <TimeShift>PT30M</TimeShift>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="q4:PythonTransform">
+        <q4:Script>import time
+import os
+from datetime import date
+today = date.today()
+@returns(str)
+def process(value):
+  sep="\\"
+  month='{0:d}'.format(today.month)
+  d='{:%Y%m%d}'.format(today)
+  path=value+d+sep
+  if not os.path.exists(path):
+    os.mkdir(path)
+
+  fname = path+'counter.txt'
+  if not os.path.isfile(str(fname)):
+    file= open(fname,'w') 
+    file.write(str(0))
+    file.close()
+
+
+  return path</q4:Script>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q3:SerialStringWrite">
+          <q3:PortName>COM4</q3:PortName>
+          <q3:NewLine>\r\n</q3:NewLine>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+        <MemberName>Save</MemberName>
+        <Name>SaveEphys</Name>
+        <Value>true</Value>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q6:KeyDown">
+          <q6:Filter>None</q6:Filter>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+        <MemberName>PortName</MemberName>
+        <Name>PortName</Name>
+        <Value>COM4</Value>
+      </Expression>
+      <Expression xsi:type="ExternalizedTimeSpanOfExternalizedTimeSpanOfTimeSpanWindow">
+        <MemberName>Value</MemberName>
+        <Name>SegmentInterval</Name>
+        <Value>PT30M</Value>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfBooleanBooleanProperty">
+        <MemberName>Save</MemberName>
+        <Name>SaveVideo</Name>
+        <Value>true</Value>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfNullableOfTimeSpanTimeSpanWindow">
+        <MemberName>TimeShift</MemberName>
+        <Name>EphysTimeShift</Name>
+        <Value />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="TimeSpanWindow">
+          <TimeSpan>PT30M</TimeSpan>
+          <TimeShift>PT30M</TimeShift>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="q7:FlyCapture">
+          <q7:Index>0</q7:Index>
+          <q7:ColorProcessing>Default</q7:ColorProcessing>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="ExternalizedTimeSpanOfTimeSpanWindow">
+        <MemberName>TimeSpan</MemberName>
+        <Name>EphysTimeSpan</Name>
+        <Value>PT30M</Value>
+      </Expression>
+      <Expression xsi:type="Condition">
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="Equal">
+              <Operand xsi:type="WorkflowPropertyOfKeys">
+                <Value>D</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfKeysEqualBuilder">
+              <MemberName>Value</MemberName>
+              <Name>DValue</Name>
+              <Value>D</Value>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfKeysEqualBuilder">
+              <MemberName>Value</MemberName>
+              <Name>EValue</Name>
+              <Value>E</Value>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfKeysEqualBuilder">
+              <MemberName>Value</MemberName>
+              <Name>SValue</Name>
+              <Value>S</Value>
+            </Expression>
+            <Expression xsi:type="Equal">
+              <Operand xsi:type="WorkflowPropertyOfKeys">
+                <Value>E</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="Equal">
+              <Operand xsi:type="WorkflowPropertyOfKeys">
+                <Value>S</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Zip" />
+            </Expression>
+            <Expression xsi:type="BitwiseOr" />
+            <Expression xsi:type="Equal">
+              <Operand xsi:type="WorkflowPropertyOfKeys">
+                <Value>N</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfKeysEqualBuilder">
+              <MemberName>Value</MemberName>
+              <Name>NValue</Name>
+              <Value>N</Value>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>2</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>0</From>
+              <To>6</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>0</From>
+              <To>7</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>0</From>
+              <To>10</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>8</To>
+              <Label>Source3</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>2</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>4</From>
+              <To>6</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>5</From>
+              <To>7</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>6</From>
+              <To>8</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>7</From>
+              <To>8</To>
+              <Label>Source2</Label>
+            </Edge>
+            <Edge>
+              <From>8</From>
+              <To>9</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>9</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>10</From>
+              <To>8</To>
+              <Label>Source4</Label>
+            </Edge>
+            <Edge>
+              <From>11</From>
+              <To>10</To>
+              <Label>Source2</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="SelectMany">
+        <Name>ArduinoCommand</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="q3:SerialStringWrite">
+                <q3:PortName>COM4</q3:PortName>
+                <q3:NewLine>\r\n</q3:NewLine>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="ExternalizedPropertyOfStringSerialStringWrite">
+              <MemberName>PortName</MemberName>
+              <Name>PortName</Name>
+              <Value>COM4</Value>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>1</From>
+              <To>0</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>1</To>
+              <Label>Source2</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="Repeat" />
+      </Expression>
+      <Expression xsi:type="SelectMany">
+        <Name>RandomDelay</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="Timer">
+                <DueTime>PT5M1.064S</DueTime>
+                <Period>PT0S</Period>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="ExternalizedTimeSpanOfTimer">
+              <MemberName>DueTime</MemberName>
+              <Name>DueTime</Name>
+              <Value>PT0S</Value>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="StringProperty">
+                <Value>T</Value>
+              </Combinator>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge>
+              <From>0</From>
+              <To>3</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>2</From>
+              <To>4</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>3</From>
+              <To>2</To>
+              <Label>Source1</Label>
+            </Edge>
+            <Edge>
+              <From>4</From>
+              <To>1</To>
+              <Label>Source1</Label>
+            </Edge>
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="q4:PythonSource">
+        <q4:Script>from System import Random, TimeSpan
+random = Random()
+
+@returns(TimeSpan)
+def generate():
+  yield TimeSpan.FromSeconds(random.NextDouble() * 60 + 5 * 60)</q4:Script>
+      </Expression>
+      <Expression xsi:type="ExternalizedTimeSpanOfTimeSpanWindow">
+        <MemberName>TimeSpan</MemberName>
+        <Name>VideoTimeSpan</Name>
+        <Value>PT30M</Value>
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfNullableOfTimeSpanTimeSpanWindow">
+        <MemberName>TimeShift</MemberName>
+        <Name>VideoTimeShift</Name>
+        <Value />
+      </Expression>
+      <Expression xsi:type="ExternalizedPropertyOfAmplifierSampleRateRhd2000EvalBoard">
+        <MemberName>SampleRate</MemberName>
+        <Name>SampleRate</Name>
+        <Value>SampleRate30000Hz</Value>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge>
+        <From>1</From>
+        <To>5</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>2</From>
+        <To>6</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>5</From>
+        <To>3</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>6</From>
+        <To>0</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>7</From>
+        <To>19</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>8</From>
+        <To>3</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>9</From>
+        <To>17</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>10</From>
+        <To>7</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>10</From>
+        <To>18</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>16</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>13</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>22</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>11</From>
+        <To>23</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>12</From>
+        <To>4</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>13</From>
+        <To>5</To>
+        <Label>Source3</Label>
+      </Edge>
+      <Edge>
+        <From>14</From>
+        <To>4</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>15</From>
+        <To>14</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>16</From>
+        <To>5</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>17</From>
+        <To>18</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>20</From>
+        <To>7</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>21</From>
+        <To>20</To>
+        <Label>Source1</Label>
+      </Edge>
+      <Edge>
+        <From>22</From>
+        <To>14</To>
+        <Label>Source2</Label>
+      </Edge>
+      <Edge>
+        <From>23</From>
+        <To>14</To>
+        <Label>Source3</Label>
+      </Edge>
+      <Edge>
+        <From>24</From>
+        <To>1</To>
+        <Label>Source1</Label>
+      </Edge>
+    </Edges>
+  </Workflow>
+  <ExtensionTypes>
+    <Type>Bonsai.Ephys.Rhd2000EvalBoard, Bonsai.Ephys, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.StringProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.MatrixWriter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.MatrixWriter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.AddBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.SelectChannels, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Int32[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.SelectChannels, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.BooleanProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.BooleanProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.CombineLatest, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.IO.CsvWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Concat, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Zip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.GreaterThanBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.IntProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.DetectSpikes, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Concat, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.FrequencyFilter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.FrequencyFilter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Difference, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Threshold, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Dsp.Shift, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.FrequencyFilter, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.IO.CsvWriter, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Dsp.DetectSpikes, Bonsai.Dsp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Ephys.AdcScale, Bonsai.Ephys, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.DivideBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.DoubleProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.SubtractBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.DoubleProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Skip, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.EqualBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonTransform, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Sample, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.RoiActivityDetected, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.LogicalAndBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.BitwiseNotBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.RoiActivity, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Vision.RoiActivityDetected, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Threshold, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.Grayscale, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Take, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.LargestBinaryRegion, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.BinaryRegionAnalysis, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.FindContours, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Vision.MaskPolygon, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.IO.SerialStringWrite, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.IO.SerialStringWrite, Bonsai.System, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.IntProperty, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Vision.ImageWriter, Bonsai.Vision, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.SubscribeWhen, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Timer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.TimeSpanWindow, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Windows.Input.KeyDown, Bonsai.Windows.Input, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedTimeSpan`1[[Bonsai.Expressions.ExternalizedTimeSpan`1[[Bonsai.Reactive.TimeSpanWindow, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Nullable`1[[System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Reactive.TimeSpanWindow, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.PointGrey.FlyCapture, Bonsai.PointGrey, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedTimeSpan`1[[Bonsai.Reactive.TimeSpanWindow, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.WorkflowProperty`1[[System.Windows.Forms.Keys, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[System.Windows.Forms.Keys, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Bonsai.Expressions.EqualBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.BitwiseOrBuilder, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Reactive.Repeat, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedTimeSpan`1[[Bonsai.Reactive.Timer, Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Scripting.PythonSource, Bonsai.Scripting, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+    <Type>Bonsai.Expressions.ExternalizedProperty`2[[Rhythm.Net.AmplifierSampleRate, Rhythm.Net, Version=1.5.0.0, Culture=neutral, PublicKeyToken=null],[Bonsai.Ephys.Rhd2000EvalBoard, Bonsai.Ephys, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null]], Bonsai.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null</Type>
+  </ExtensionTypes>
+</WorkflowBuilder>

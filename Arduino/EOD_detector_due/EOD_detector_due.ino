@@ -9,16 +9,19 @@ int BothPin = 12;
 int DoutPin = 13;
 
 long t0, t;
-unsigned int Ain,Aref,Aref2,Amid;
+unsigned int Ain,Aref,Alast;
+bool Mode;
 bool Pos,Neg,Both;
 unsigned int Tdelay,Twidth,Tref,Tcheck,T,T1; //delay,width refraction of pulse
+int Adiffs;
+int dA[3]; //array of diffs to find peak
     
 void setup() {
   Serial.begin(57600);
 
   // put your setup code here, to run once:
-//  REG_ADC_MR = (REG_ADC_MR & 0xFFF0FFFF) | 0x00020000;
-//  REG_ADC_MR = (REG_ADC_MR & 0xFFFFFF0F) | 0x00000080; //enable FREERUN mode  
+  ADC->ADC_MR |= 0x80;  //set free running mode on ADC
+  ADC->ADC_CHER = 0xF0; //enable ADC on pins A0, A1, A2, A3 (PA16=AD7, PA24=AD6, PA23=AD5, PA22=AD4) 0x80 for A0
   analogReadResolution(12);
   analogWriteResolution(12);
 
@@ -27,99 +30,102 @@ void setup() {
   pinMode(BothPin, INPUT);
   pinMode(DoutPin, OUTPUT);
 
-  Tdelay=5000;
-  Twidth=5000;
+  Tdelay=0;
+  Twidth=1000;
   Tcheck=500; //check and output ref value every 500 ms
   Tref=50; //ms refraction
-  Amid=4096/2;  
+//  Amid=4096/2;  
   T=millis();
-  Serial.print("T: ");
-  Serial.println((float)T);     
-  
-  Aref= analogRead(ThPin);
-  Aref2=2*Amid-Aref;
+//  Serial.print("T: ");
+//  Serial.println((float)T);     
+
+  //get threshold
+//  Aref= analogRead(ThPin); 
+  while((ADC->ADC_ISR & 0x80)==0); // wait for conversion on AD7 (pin A0)
+  Aref=ADC->ADC_CDR[7]; //get value of A0  
   Serial.print("Aref: ");
   Serial.println((float)Aref);     
-  analogWrite(DAC1,Aref);
-  digitalWrite(DoutPin, LOW);    // turn the LED off by making the voltage LOW
+
+  //get Ain
+  while((ADC->ADC_ISR & 0x10)==0); // wait for conversion on AD4 (pin A3) // previously 0x80 = A0  
+  Ain=ADC->ADC_CDR[4]; //get value of A3
+  Serial.print("Ain: ");
+  Serial.println((float)Ain);       
+  Alast=Ain;
+
+  //get Delay
+  while((ADC->ADC_ISR & 0x60)==0); // wait for conversion on AD6 (pin A1) 
+  Tdelay=ADC->ADC_CDR[6]; //get value of A1
+  Tdelay=Tdelay*20;
+  Serial.print("Delay: ");
+  Serial.println((float)Tdelay);       
+
+  //get Width
+  while((ADC->ADC_ISR & 0x40)==0); // wait for conversion on AD5 (pin A2) 
+  Twidth=ADC->ADC_CDR[5]; //get value of A2
+  Serial.print("Width: ");
+  Serial.println((float)Twidth);       
   
+  digitalWrite(DoutPin, LOW);    // turn the LED off by making the voltage LOW
+  Mode=digitalRead(PosPin);
+  Serial.print("Mode: ");
+  Serial.println((float)Mode);         
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-//  t0 = micros();
+  while((ADC->ADC_ISR & 0x10)==0); // wait for conversion on AD4 (pin A3) // previously 0x80 = A0  
+  Ain=ADC->ADC_CDR[4]; //get value of Ain3
 
-  Ain = analogRead(AinPin);
-  Pos = digitalRead(PosPin) && Ain>Aref;
-  Neg = digitalRead(NegPin) &&  Ain<Aref;  
-  Both = digitalRead(BothPin) && ( (Aref>Amid && (Ain>Aref || Ain<Aref2)) || (Aref<Amid && (Ain>Aref2 || Ain<Aref)) );
-  
-  if ( Pos || Neg || Both )
+  //Ain = analogRead(AinPin);    
+  if ( (!Mode && Ain<Aref) || (Mode && Ain>Aref) )
   {
-//    Tdelay = analogRead(DelayPin);
-//    Twidth = analogRead(WidthPin);
-    delayMicroseconds(Tdelay);    
-    digitalWrite(DoutPin, HIGH);   // turn the LED on (HIGH is the voltage level)
-    delayMicroseconds(Twidth);    
-    digitalWrite(DoutPin, LOW);    // turn the LED off by making the voltage LOW
-    delayMicroseconds(Tref);    
-  } 
-  else
-  { 
-    T1=millis();
-    
-    if ((T1-T)>=Tcheck)
+    // find extremum
+
+    //shift register of diffs
+/*    dA[2]=dA[1];
+    dA[1]=dA[0];
+    dA[0]=Ain-Alast;*/
+    Adiffs=Ain-Alast;
+//    Serial.print("Adiffs: ");
+//    Serial.println((float)Adiffs);         
+    if( (~Mode && Adiffs>=0) || (Mode && Adiffs<=0)) //sign change    
     {
-      T=T1;
-      Aref= analogRead(ThPin);
-      Tdelay = analogRead(DelayPin)*20;
-      Twidth = analogRead(WidthPin);
-      Both = digitalRead(BothPin);
-      if(Both)          
-      {
-        Aref2=2*Amid-Aref;
-        analogWrite(DAC1,Aref2);
-        Serial.print("Aref2: ");
-        Serial.println((float)Aref2);     
-      }
+      delayMicroseconds(Tdelay);    
+      digitalWrite(DoutPin, HIGH);   // turn the LED on (HIGH is the voltage level)
+      delayMicroseconds(Twidth);    
+      digitalWrite(DoutPin, LOW);    // turn the LED off by making the voltage LOW
+    
+  
+      // update params
+//      Aref= analogRead(ThPin);
+      while((ADC->ADC_ISR & 0x80)==0); // wait for conversion on AD7 (pin A0)
+      Aref=ADC->ADC_CDR[7]; //get value of Ain3
+
+//      Tdelay = analogRead(DelayPin)*20;
+//      Twidth = analogRead(WidthPin);
+      //get Delay
+      while((ADC->ADC_ISR & 0x60)==0); // wait for conversion on AD6 (pin A1) 
+      Tdelay=ADC->ADC_CDR[6]; //get value of A1
+      Tdelay=Tdelay*20;
+
+      //get Width
+      while((ADC->ADC_ISR & 0x40)==0); // wait for conversion on AD5 (pin A2) 
+      Twidth=ADC->ADC_CDR[5]; //get value of A2
+
+//      Mode=digitalRead(PosPin);
+      delay(Tref);   
+      T=millis(); 
     }
-  }
-/*  if ( Ain>Aref && Pos)// | Ain<(Amid-Aref)) % add for opposite polarity
+     
+  } 
+  Alast=Ain;  
+
+  //ref watchdog
+  if(millis()-T>Tcheck)
   {
-    Tdelay = analogRead(DelayPin);
-    Twidth = analogRead(WidthPin);
-    delayMicroseconds(Tdelay);    
-    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-    delayMicroseconds(Twidth);    
-    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-    //while(analogRead(AinPin)>=Amid);//analogRead(ArefPin));
-    delayMicroseconds(Tref);    
-  }  
-  else if (Ain<Aref && Neg)
-  {
-    Tdelay = analogRead(DelayPin);
-    Twidth = analogRead(WidthPin);
-    delayMicroseconds(Tdelay);    
-    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-    delayMicroseconds(Twidth);    
-    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-    //while(analogRead(AinPin)>=Amid);//analogRead(ArefPin));
-    delayMicroseconds(Tref);        
+      while((ADC->ADC_ISR & 0x80)==0); // wait for conversion on AD7 (pin A0)
+      Aref=ADC->ADC_CDR[7]; //get value of Ain3    
   }
-  else if (Both && ( (Aref>Amid && (Ain>Aref || Ain<(2*Amid-Aref))) || (Aref<Amid && (Ain>(2*Amid-Aref) || Ain<Aref)) ))
-  {
-    Tdelay = analogRead(DelayPin);
-    Twidth = analogRead(WidthPin);
-    delayMicroseconds(Tdelay);    
-    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-    delayMicroseconds(Twidth);    
-    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-    //while(analogRead(AinPin)>=Amid);//analogRead(ArefPin));
-    delayMicroseconds(Tref);        
-  }
-  */
-//  t=micros()-t0;
-//  Serial.print("Time per sample: ");
-//  Serial.println((float)t);
   
 }

@@ -65,7 +65,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:Threshold">
-                <q3:ThresholdValue>500</q3:ThresholdValue>
+                <q3:ThresholdValue>250</q3:ThresholdValue>
                 <q3:MaxValue>1</q3:MaxValue>
                 <q3:ThresholdType>Binary</q3:ThresholdType>
               </Combinator>
@@ -100,7 +100,7 @@ def process(value):
             <Expression xsi:type="ExternalizedPropertyOfDoubleThreshold">
               <MemberName>ThresholdValue</MemberName>
               <Name>Threshold</Name>
-              <Value>500</Value>
+              <Value>250</Value>
             </Expression>
             <Expression xsi:type="MemberSelector">
               <Selector>Source.AmplifierData</Selector>
@@ -641,7 +641,7 @@ def process(value):
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="q3:SelectChannels">
                       <q3:Channels>
-                        <q3:int>1</q3:int>
+                        <q3:int>2</q3:int>
                       </q3:Channels>
                     </Combinator>
                   </Expression>
@@ -684,7 +684,7 @@ def process(value):
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="q4:CsvWriter">
-                    <q4:FileName>Z:\mormyrid_data\20200128\surgery_pulses_</q4:FileName>
+                    <q4:FileName>Z:\mormyrid_data\20210813\surgery_pulses_</q4:FileName>
                     <q4:Append>true</q4:Append>
                     <q4:Overwrite>true</q4:Overwrite>
                     <q4:Suffix>FileCount</q4:Suffix>
@@ -694,7 +694,7 @@ def process(value):
                   <Expression xsi:type="ExternalizedPropertyOfStringCsvWriter">
                     <MemberName>FileName</MemberName>
                     <Name>FileName</Name>
-                    <Value>Z:\mormyrid_data\20200128\surgery_pulses_</Value>
+                    <Value>Z:\mormyrid_data\20210813\surgery_pulses_</Value>
                   </Expression>
                   <Expression xsi:type="ExternalizedPropertyOfArrayOfDoubleDetectSpikes">
                     <MemberName>Threshold</MemberName>
@@ -721,7 +721,7 @@ def process(value):
                     <MemberName>Channels</MemberName>
                     <Name>Channels</Name>
                     <Value>
-                      <int>1</int>
+                      <int>2</int>
                     </Value>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -870,7 +870,7 @@ def process(value):
               <MemberName>Channels</MemberName>
               <Name>Channels</Name>
               <Value>
-                <int>1</int>
+                <int>2</int>
               </Value>
             </Expression>
           </Nodes>
@@ -948,7 +948,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:MatrixWriter">
-                <q3:Path>Z:\mormyrid_data\20200128\surgery_amp_</q3:Path>
+                <q3:Path>Z:\mormyrid_data\20210813\surgery_amp_</q3:Path>
                 <q3:Suffix>FileCount</q3:Suffix>
                 <q3:Overwrite>false</q3:Overwrite>
                 <q3:Layout>RowMajor</q3:Layout>
@@ -1211,7 +1211,7 @@ def process(value):
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:MatrixWriter">
-                <q3:Path>Z:\mormyrid_data\20200128\surgery_adc_</q3:Path>
+                <q3:Path>Z:\mormyrid_data\20210813\surgery_adc_</q3:Path>
                 <q3:Suffix>FileCount</q3:Suffix>
                 <q3:Overwrite>false</q3:Overwrite>
                 <q3:Layout>RowMajor</q3:Layout>
@@ -1232,7 +1232,7 @@ def process(value):
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="q3:SelectChannels">
                 <q3:Channels>
-                  <q3:int>1</q3:int>
+                  <q3:int>2</q3:int>
                 </q3:Channels>
               </Combinator>
             </Expression>
@@ -1243,7 +1243,7 @@ def process(value):
               <MemberName>Channels</MemberName>
               <Name>Channels</Name>
               <Value>
-                <int>1</int>
+                <int>2</int>
               </Value>
             </Expression>
             <Expression xsi:type="Condition">
@@ -1393,7 +1393,7 @@ def process(value):
         <MemberName>Channels</MemberName>
         <Name>adcChannels</Name>
         <Value>
-          <int>1</int>
+          <int>2</int>
         </Value>
       </Expression>
       <Expression xsi:type="ExternalizedPropertyOfArrayOfInt32SelectChannels">

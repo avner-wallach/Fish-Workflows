@@ -17,8 +17,10 @@ void setup() {
   Serial.begin(57600);
 
   // put your setup code here, to run once:
-  REG_ADC_MR = (REG_ADC_MR & 0xFFF0FFFF) | 0x00020000;
-  REG_ADC_MR = (REG_ADC_MR & 0xFFFFFF0F) | 0x00000080; //enable FREERUN mode  
+  ADC->ADC_MR |= 0x80;  //set free running mode on ADC
+  ADC->ADC_CHER = 0x90; //enable ADC on pin A0
+  //REG_ADC_MR = (REG_ADC_MR & 0xFFF0FFFF) | 0x00020000;
+//  REG_ADC_MR = (REG_ADC_MR & 0xFFFFFF0F) | 0x00000080; //enable FREERUN mode  
   analogReadResolution(12);
   analogWriteResolution(12);
 
@@ -27,20 +29,15 @@ void setup() {
   pinMode(BothPin, INPUT);
   pinMode(DoutPin, OUTPUT);
 
-  Tdelay=0;
-  Twidth=1000;
+  Tdelay=15*1000;
+  Twidth=100;
   Tcheck=500; //check and output ref value every 500 ms
   Tref=10; //ms refraction
-  Amid=4096/2;  
-  T=millis();
-  Serial.print("T: ");
-  Serial.println((float)T);     
+//  T=millis();
+//  Serial.print("T: ");
+//  Serial.println((float)T);     
   
-  Aref= analogRead(ThPin);
-  Aref2=2*Amid-Aref;
-  Serial.print("Aref: ");
-  Serial.println((float)Aref);     
-  analogWrite(DAC1,Aref);
+
   digitalWrite(DoutPin, LOW);    // turn the LED off by making the voltage LOW
   
 }
@@ -48,8 +45,13 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   t0 = micros();
-
-  Ain = analogRead(AinPin);
+  while((ADC->ADC_ISR & 0x80)==0); // wait for conversion
+  Ain=ADC->ADC_CDR[4]; //get values
+  Aref=ADC->ADC_CDR[7]; //get values
+//  Aref= analogRead(ThPin);
+//  Ain = analogRead(AinPin);
+//  Serial.println((float)Aref);
+  //analogWrite(DAC0,Aref);
   Pos = Ain>Aref;
   
   if ( Pos )
@@ -60,6 +62,12 @@ void loop() {
     digitalWrite(DoutPin, HIGH);   // turn the LED on (HIGH is the voltage level)
     delayMicroseconds(Twidth);    
     digitalWrite(DoutPin, LOW);    // turn the LED off by making the voltage LOW
+    while((ADC->ADC_ISR & 0x80)==0); // wait for conversion
+    while(Ain>Aref)
+    {
+        Ain=ADC->ADC_CDR[4]; //get values
+        Aref=ADC->ADC_CDR[7]; //get values
+    }
     delayMicroseconds(Tref*1000);    
   } 
   else
